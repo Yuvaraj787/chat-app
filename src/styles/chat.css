@@ -1,0 +1,31 @@
+.onechat {
+    background-color: rgb(216, 244, 248);
+    border-radius:0 13px 13px 13px;
+    margin: 15px;
+    display: inline-block;
+    padding: 18px;
+}
+
+.type-area {
+    display: flex;
+    align-items: center;
+}
+
+.oneChatDiv {
+    display: flex;
+    align-items: center;
+}
+
+.ChatMsg {
+    display: flex;
+    flex-direction: column;
+}
+
+.trans-side {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.trans-loading-text {
+    font-style: italic;
+}

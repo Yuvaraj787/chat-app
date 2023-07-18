@@ -1,0 +1,37 @@
+.form-page {
+    display: flex;
+    height: 80vh;
+    align-items: center;
+    justify-content: center;
+}
+.align {
+    background-color: #6091bc;
+    padding: 30px;
+    border-radius: 10px 17px;
+    width: 50%;
+    text-align: center;
+}
+.form-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 12px;
+}
+.form-head {
+    font-size: 1.9rem;
+    font-weight: bolder;
+}
+.fix1 {
+    margin-bottom: 30px;
+}
+
+.form-info {
+    font-size: 1.3rem;
+}
+
+.input-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

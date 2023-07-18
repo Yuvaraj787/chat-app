@@ -1,0 +1,24 @@
+.navbar {
+    display: flex;
+    width: calc(100%); /* Adjust the value according to your padding/margin size */
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(165, 125, 202);
+    
+}
+.navbar > div {
+    display: flex;
+    flex-direction: row;
+}
+.second-half {
+    align-items: flex-end;
+}
+.nav-item {
+    font-size: 1.7rem;
+    padding: 12px;
+}
+.nav-brand {
+    font-size: 1.7rem;
+    font-weight: bolder;
+    padding: 12px;
+}
