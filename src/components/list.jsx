@@ -10,7 +10,7 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 function OneBox(props) {
      const cookie = new Cookies()
-     const socket = io.connect("http://localhost:3000")
+     const socket = io.connect("https://chat-app-backend-pp9x.onrender.com")
      const [sampleChats, setChats] = useState([]);
      const [fetched, setFetched] = useState(false);
      useEffect(()=>{
@@ -79,7 +79,7 @@ function List(props) {
   
   const addChat = () => {
       axios({
-        url : "http://localhost:3000/addchat",
+        url : "https://chat-app-backend-pp9x.onrender.com/addchat",
         method:"POST",
         params:{email:email},
         headers:{

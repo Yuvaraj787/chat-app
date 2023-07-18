@@ -17,7 +17,7 @@ function login() {
   const verify = () => {
     
     axios({
-      url:"http://localhost:3000/login",
+      url:"https://chat-app-backend-pp9x.onrender.com/login",
       method:"POST",
       params: userDetails,
    }).then((res)=>{

@@ -15,7 +15,7 @@ function SignUp() {
   }
   const register = () => {
      axios({
-        url:"http://localhost:3000/signup",
+        url:"https://chat-app-backend-pp9x.onrender.com/signup",
         method:"POST",
         headers:{},
         params: userDetails,

@@ -13,7 +13,7 @@ const cookie = new Cookies();
 const downloadChats = async (list) => {
     for (var i = 0; i < list.length; i++) {
       await axios({
-        url:"http://localhost:3000/getChat",
+        url:"https://chat-app-backend-pp9x.onrender.com/getChat",
         method:"GET",
         headers:{
           "authToken": cookie.get("token")
@@ -48,7 +48,7 @@ function mainpage() {
   
   useEffect(()=>{
     axios({
-      url:"http://localhost:3000/getlist",
+      url:"https://chat-app-backend-pp9x.onrender.com/getlist",
       method:"GET",
       headers:{
         "authToken": cookie.get("token")
