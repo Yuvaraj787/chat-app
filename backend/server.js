@@ -239,6 +239,6 @@ app.get("/getChat",verifyToken, async (req,res) => {
     res.json({success:true,chats:response})
 })
 
-server.listen(3000,() => {
+server.listen(process.env.PORT || 3000,() => {
     console.log("Server is running on port 3000");
 })
