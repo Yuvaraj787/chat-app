@@ -1,0 +1,3 @@
+const ApiUrl = ""
+
+export { ApiUrl }
