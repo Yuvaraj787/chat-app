@@ -31,6 +31,7 @@ function ChatPage(props) {
     msgArea.scrollTop = msgArea.scrollHeight;
     if (props.curChats.length == 0) return;
     if (props.curChats.sent) return;
+    console.log("Fetching started from chatgpt api");
     axios({
       url:"https://api.openai.com/v1/chat/completions",
       method:"POST",
