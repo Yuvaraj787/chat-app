@@ -54,7 +54,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors : {
-        origin:["http://localhost:5173","http://localhost:5174","https://chat-app-steel-rho.vercel.app/view"],
+        origin:["http://localhost:5173","http://localhost:5174","https://chat-app-steel-rho.vercel.app"],
         methods: ['GET','POST']
     }
 })
