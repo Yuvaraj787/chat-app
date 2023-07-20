@@ -30,7 +30,7 @@ function ChatPage(props) {
     const msgArea = document.querySelector(".mid-area");
     msgArea.scrollTop = msgArea.scrollHeight;
     if (props.curChats.length == 0) return;
-    if (props.curChats.sent) return;
+    if (props.curChats[props.curChats.length - 1].sent) return;
     console.log("Fetching started from chatgpt api");
     axios({
       url:"https://api.openai.com/v1/chat/completions",
