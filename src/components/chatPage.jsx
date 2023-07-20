@@ -72,7 +72,7 @@ function ChatPage(props) {
         </div>
         <form onSubmit={sendMessage}>
         <div>
-        {!props.curChats[props.curChats.length - 1].sent && <div style={{height:"80px"}} className='msg-rec'>
+        {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && <div style={{height:"80px"}} className='msg-rec'>
             <div className='rec-head'>Message suggestions : </div>
             {suggestions.length != 0 ? suggestions.map(msg=>{
               return (
