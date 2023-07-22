@@ -3,17 +3,15 @@ import List from "../components/list"
 import ChatPage from "../components/chatPage"
 import "../styles/mainpage.css"
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 import LoadingPage from "../components/LoadingPage"
 import { Cookies } from 'react-cookie'
-import io from "socket.io-client"
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { ApiUrl } from '../components/comVars'
 const cookie = new Cookies();
 
 const downloadChats = async (list) => {
     for (var i = 0; i < list.length; i++) {
       await axios({
-        url:"https://chat-app-backend-pp9x.onrender.com/getChat",
+        url:ApiUrl + "/getChat",
         method:"GET",
         headers:{
           "authToken": cookie.get("token")
@@ -35,8 +33,7 @@ const downloadChats = async (list) => {
     return true;
 }
 
-function mainpage() {
-  const navigate = useNavigate();
+function mainpage(props) {
   const [selected, setSelected] = useState({userid : -1, name:"",roomid:-1});
   const [contactsFetched, setFetched] = useState(false);
   const [chatFetched, setChatFetched] = useState(false);
@@ -48,7 +45,7 @@ function mainpage() {
   
   useEffect(()=>{
     axios({
-      url:"https://chat-app-backend-pp9x.onrender.com/getlist",
+      url:ApiUrl + "/getlist",
       method:"GET",
       headers:{
         "authToken": cookie.get("token")
@@ -68,21 +65,12 @@ function mainpage() {
   
   return (
     <div className='main-page'>
-    
       {contactsFetched && chatFetched ?
        <>
-      {fullScreen ?
-        <List onChange={setSelected} username={name} cur={selected} stChats={setChats} select={selected} changeSocket={setSocket} list={chatList} setScreen={setFullScreen}/>
-       :  <KeyboardDoubleArrowRightIcon  onClick={()=>setFullScreen(true)} />
-       }
-      {selected.name == "" ? 
-      "select a name to chat"
-       :
-      <ChatPage details={selected} reqSocket={requiredSocket} setChats={setChats} curChats={currentChats}/>
-      } 
-      </> :
+        <List onChange={setSelected} screen={fullScreen} username={name} cur={selected} stChats={setChats} select={selected} changeSocket={setSocket} list={chatList} setScreen={setFullScreen}/>
+        <ChatPage details={selected} reqSocket={requiredSocket} setChats={setChats} curChats={currentChats}/> 
+       </> :
        <LoadingPage contactStatus={contactsFetched} chatStatus={chatFetched} />}
-      
     </div>
   )
 }

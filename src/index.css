@@ -1,6 +1,15 @@
 :root {
-  background-color: #a3c1db;
+  background-color: #F6FFDE;
+  --msg-box-clr : #AAC8A7;
+  --rec-box-clr : #aabd88;
+  --rec-box-hv : #99A98F;
+  --nav-clr: #99A98F;
+  --btn-clr: ;
+  --btn-hv: ;
+  --btn-act: ;
+  --lgn-bclr: ;
 }
+
 body {
   padding: 0;
   margin: 0;

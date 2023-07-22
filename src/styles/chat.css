@@ -1,5 +1,5 @@
 .onechat {
-    background-color: rgb(216, 244, 248);
+    background-color: var(--msg-box-clr);
     border-radius:0 13px 13px 13px;
     margin: 15px;
     display: inline-block;
@@ -21,11 +21,24 @@
     flex-direction: column;
 }
 
+/* .onechat:hover + .trans-side {
+    visibility: visible;
+} */
+
+
+
 .trans-side {
     display: flex;
     align-items: center;
     column-gap: 10px;
+    visibility: hidden;
 }
+
 .trans-loading-text {
     font-style: italic;
 }
+
+.c-head {
+    text-transform: capitalize;
+}
+

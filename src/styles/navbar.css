@@ -3,8 +3,7 @@
     width: calc(100%); /* Adjust the value according to your padding/margin size */
     flex-direction: row;
     justify-content: space-between;
-    background-color: rgb(165, 125, 202);
-    
+    background-color: var(--nav-clr);   
 }
 .navbar > div {
     display: flex;

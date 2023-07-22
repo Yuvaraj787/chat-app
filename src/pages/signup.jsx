@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../styles/login.css"
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
 import axios from 'axios';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { ApiUrl } from '../components/comVars';
 
 
-function SignUp() {
+function SignUp(props) {
   const navigate = useNavigate();
   const [userDetails, setDetails] = useState({uname:"",email:"",pwd:"",cpwd:"",phone:""});
   const updateInfo = (e) => {
     setDetails({...userDetails,[e.target.name]:e.target.value});
   }
+  useEffect(props.onLoad,[])
   const register = () => {
      axios({
-        url:"https://chat-app-backend-pp9x.onrender.com/signup",
+        url:ApiUrl + "/signup",
         method:"POST",
         headers:{},
         params: userDetails,

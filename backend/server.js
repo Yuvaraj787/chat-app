@@ -49,6 +49,20 @@ conn.connect((err)=>{
     else console.log("Connected successfully to db")
 })
 
+const verifyToken = (req,res,next) => {
+    const token = req.headers["authtoken"];
+    jwt.verify(token, "key1", (err,decoded)=>{
+        if (err) {
+            console.log("Token not verified, reason : ",err.message)
+            res.json({wrongToken:true})
+        }
+        else {
+            req.id = decoded.id;
+            console.log("Token verified id : ",decoded);
+            next();
+        }
+    })
+}
 
 const server = http.createServer(app);
 
@@ -70,15 +84,20 @@ io.on("connection",(socket)=>{
         const id = jwt.decode(mdata.senderToken).id;
         console.log("Sender id : ",id);
         try {
-            await conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,"Text",id,0])
+            await conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
         } catch (err) {
             console.log("Error in update message values to db reason : ",err.message)
         }
         socket.to(mdata.room).emit("receive_message",{
             message: mdata.message,
             userid : id,
+            type: mdata.type
         })
     })
+})
+
+app.post("/verify", verifyToken, (req,res)=>{
+    res.json({verified:true});
 })
 
 app.post("/signup",async (req,res) => {
@@ -133,20 +152,7 @@ app.post("/login",async (req,res) => {
     }
 })
 
-const verifyToken = (req,res,next) => {
-    const token = req.headers["authtoken"];
-    jwt.verify(token, "key1", (err,decoded)=>{
-        if (err) {
-            console.log("Token not verified, reason : ",err.message)
-            res.json({wrongToken:true})
-        }
-        else {
-            req.id = decoded.id;
-            console.log("Token verified id : ",decoded);
-            next();
-        }
-    })
-}
+
 
 app.get("/getlist", verifyToken, async (req,res)=>{
     var result = [];
@@ -232,7 +238,8 @@ app.get("/getChat",verifyToken, async (req,res) => {
     const response = docs.rows.map(row => {
         let data = {
             message : row.message,
-            sent : (row.sender === req.id)
+            sent : (row.sender === req.id),
+            type: row.type ? row.type : "image"
         }
         return data
     })

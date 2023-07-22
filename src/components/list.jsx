@@ -1,16 +1,19 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { AddBox } from '@mui/icons-material'
+import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 import { Cookies } from 'react-cookie'
 import axios from 'axios'
 import { logout } from "../components/functions"
+import MenuIcon from '@mui/icons-material/Menu';
 import io from "socket.io-client"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import CloseIcon from '@mui/icons-material/Close';
+import { ApiUrl } from './comVars';
 
 function OneBox(props) {
      const cookie = new Cookies()
-     const socket = io.connect("https://chat-app-backend-pp9x.onrender.com")
+     const socket = io.connect(ApiUrl)
      const [sampleChats, setChats] = useState([]);
      const [fetched, setFetched] = useState(false);
      useEffect(()=>{
@@ -40,10 +43,8 @@ function OneBox(props) {
           }
         })
      },[socket])
-
      return (
-      <> 
-        <div className='OneBox' style={{backgroundColor:props.selected && "#0567b4",color:props.selected && "white"}} onClick={
+        <div className="OneBox" style={{backgroundColor:props.selected && "#99A98F",color:props.selected && "white"}} onClick={
           () => {
             props.changeChat([...chats])
             cookie.set("selected",props.oid)
@@ -54,17 +55,16 @@ function OneBox(props) {
           <span>{props.name}  
           {unread && <span style={{color:"green"}}>*</span>}</span>
         </div>
-      </>
      )
 }
 
 function List(props) {
   const cookie = new Cookies();
   const [email,setEmail] = useState("");
-
+  
   const [selected, setSelected] = useState(0);
   const [displayState, setDisplay] = useState(false);
-
+  const [fs, setFs] = useState(false);
   // const update = (ind,socket) => {
   //   props.list[selected].selected = false;
   //   props.list[ind].selected = true;
@@ -73,13 +73,11 @@ function List(props) {
   //   props.changeSocket(socket);
   //   props.onChange(list[ind]);
   // }
-  const toggle = () => setDisplay(!displayState);
-  
   const updateEmail = (e) => setEmail(e.target.value);
   
   const addChat = () => {
       axios({
-        url : "https://chat-app-backend-pp9x.onrender.com/addchat",
+        url : ApiUrl + "/addchat",
         method:"POST",
         params:{email:email},
         headers:{
@@ -101,25 +99,38 @@ function List(props) {
 
   return (
     <div className='list-section'>
-    <div className='list-head'>
-      <span>
+    <div className='list-head' style={{padding:"3%"}}>
+      <span style={{visibility: fs && "hidden"}}>
         {props.username}
       </span>
-      <MenuOpenIcon onClick={()=>{props.setScreen(false)}}/>
+      {!fs ? <MenuOpenIcon className="i2" onClick={
+        () => {
+          document.querySelector(".list-section").style.maxWidth = "50px";
+          setFs(true);
+        }
+      }/> : <MenuOpenIcon sx={{transform:"scaleX(-1)"}} className="i2"  onClick={
+        ()=>{
+          document.querySelector(".list-section").style.maxWidth = "300px";
+          setFs(false);
+          }
+        } />}
     </div>
-    <div className='list-head'>
-      <span>
+    <div className='list-head' style={{visibility: fs && "hidden"}}>
+      <span style={{whiteSpace:"nowrap"}}>
         Your Chats
       </span>
-      <button className='add-btn' onClick={toggle}>
-        {displayState ? "Cancel" : <><AddBox /> New Chat</>}
+      <button className='add-btn' onClick={()=>{
+        // document.querySelector(".input-div").style.height = displayState ? "70px" : "0px";
+        setDisplay(!displayState);
+      }}>
+        <div style={{display:"flex",alignItems:"space-between", columnGap:"5px", width:"max-content"}}>{displayState ? <CloseIcon sx={{color:"red"}} /> : <PersonAddAlt1RoundedIcon />}</div>
       </button>  
     </div>
-    {displayState && <div className='form-section input-div'>
+    <div className='form-section input-div' style={{height: displayState ? "70px" : 0}}>
       <input className='input-cust extra-cust' onChange={updateEmail} value={email} placeholder="Email Address" type="email" icon={"MailIcon"} />
       <button onClick={addChat}>Add</button>
-    </div>}  
-    <div className='list'>
+    </div>
+    <div className='list'  style={{visibility: fs && "hidden"}} >
      {props.list.map((e,i)=>{
         return (<OneBox
                  s={props.select.userid} 

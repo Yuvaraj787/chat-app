@@ -38,15 +38,24 @@ function chatBox(props) {
   }
   return (
     <div className='ChatMsg'>
-        <div className='oneChatDiv' style={{flexDirection:props.side ? "row-reverse" : "row"}}>
-          <div className='onechat' style={{borderRadius:props.side ? "13px 0 33px 13px" : "0 13px 13px 33px" }} >
+        <div className='oneChatDiv' style={{flexDirection:props.side ? "row-reverse" : "row"}}>        
+            <div className='onechat' style={{borderRadius:props.side ? "13px 0 33px 13px" : "0 13px 13px 33px" }} >
+             {
+              props.type == "image" ? 
+              <img style={{height:"300px", width:"300px"}} src={props.message} />
+             :
+             <>
             {on ? text.original : text.translated}
             {(!on && text.translated == "") && <span className='trans-loading-text'>Translating...</span>}
+            </>
+             }
           </div>
-          <div className='trans-side' style={{flexDirection:props.side ? "row-reverse" : "row"}} >
+          {props.side != "image" && <div className='trans-side' style={{flexDirection:props.side ? "row-reverse" : "row"}} >
             <span onClick={translate}><AutorenewIcon /></span>
            <span style={{fontStyle:"italic"}}>  {!on && "( Translated to tamil ) "} </span>
-          </div>
+          </div>}
+         
+          
         </div>
    </div>
   )

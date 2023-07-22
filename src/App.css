@@ -1,6 +1,6 @@
 button {
     font-size: 1.3rem;
-    background-color: rgb(153, 153, 227);
+    background-color: var(--btn-clr);
     margin: 12px;
     font-weight: bolder;
     border: 1px solid rgb(133, 133, 220);
@@ -10,7 +10,7 @@ button {
     flex-direction: row;
 }
 button:active {
-    background-color: rgb(113, 113, 235);
+    background-color: var(--btn-act);
 }
 
 .input-div {

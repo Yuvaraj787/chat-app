@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "../styles/login.css"
 import MailIcon from '@mui/icons-material/Mail';
@@ -6,7 +6,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import BadgeIcon from '@mui/icons-material/Badge';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-function login() {
+import { ApiUrl } from '../components/comVars';
+function login(props) {
   const cookie = new Cookies();
   const navigate = useNavigate();
   const [userDetails, setDetails] = React.useState({email:"",pwd:""});
@@ -15,12 +16,12 @@ function login() {
   }
   
   const verify = () => {
-    
+    localStorage.clear();
     axios({
-      url:"https://chat-app-backend-pp9x.onrender.com/login",
+      url:ApiUrl + "/login",
       method:"POST",
       params: userDetails,
-   }).then((res)=>{
+    }).then((res)=>{
     if (res.data.correct) {
       alert("Login success!")
       cookie.set("token",res.data.token);
@@ -33,7 +34,6 @@ function login() {
    }).catch((err)=>{
     console.log(err);
    })
-
   }
   
   return (

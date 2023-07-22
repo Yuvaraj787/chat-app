@@ -2,18 +2,15 @@ import React, { useState,useEffect } from 'react'
 import "../styles/navbar.css"
 import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-function navbar() {
+import axios from 'axios';
+import { ApiUrl } from './comVars';
+function navbar(props) {
     const navigate = useNavigate();
     const cookie = new Cookies();
-    const [loggedIn, setLoggedIn] = useState(true);
-    useEffect(()=>{
-        if (!cookie.get('token')) {
-        setLoggedIn(false);
-        }
-    },[])
     const logout = () => {
         cookie.remove('token');
         cookie.remove('username');
+        localStorage.clear();
         alert("Logout successfull!");
         setLoggedIn(false);
         navigate("/login");
@@ -28,7 +25,7 @@ function navbar() {
             <div className='second-half'>
                 <div className='nav-item'>
                     <span>
-                        {loggedIn ? <a onClick={logout}>Logout</a> : <a href="/login">Login</a>}
+                        {props.loggedIn ? <a onClick={logout}>Logout</a> : <a href="/login">Login</a>}
                     </span>
                 </div>
                 <div className='nav-item'>
