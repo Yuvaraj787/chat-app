@@ -57,7 +57,7 @@ function ChatPage(props) {
     console.log(file);
   }
   useEffect(()=>{
-    document.getElementById("send-btn").click();                                   
+    document.getElementById("send-btn")?.click();                                   
   },[file])
     
   return (
