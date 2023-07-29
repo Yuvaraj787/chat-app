@@ -1,0 +1,42 @@
+.load-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.load-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-img > div {
+    height: 120px;
+    aspect-ratio: 1;
+    background-image: url("../../public/icons8-chat-96.png");
+    background-repeat: no-repeat;
+    object-fit: cover;
+    margin: auto;
+}
+.load-text > span {
+    font-weight: bolder;
+    font-size: 1.3rem;
+}
+.load-status-desc::after {
+    content: "";
+    position: absolute;
+    margin-left: 4px;
+    animation: loadDot 1s infinite;
+}
+.load-text {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.load-line {
+    height: 5px;
+    width: 120%;
+    background-color: rgb(49, 217, 40);
+    transition: width 1.2s;
+}

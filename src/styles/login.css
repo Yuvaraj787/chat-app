@@ -5,7 +5,7 @@
     justify-content: center;
 }
 .align {
-    background-color: #6091bc;
+    background-color: var(--lgn-bclr);
     padding: 30px;
     border-radius: 10px 17px;
     width: 50%;
@@ -34,4 +34,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.lgn-btn {
+    background-color: rgb(89, 96, 39);
+    padding: 1% 2%;
+    border: 1px solid rgb(52, 57, 15);
+    box-shadow: 3px 3px 0 0 rgb(89, 96, 39);
+    transition: transform 0.2s, box-shadow 0.2s, text-shadow 0.1s
+}
+.lgn-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 0;
+}
+
+.lgn-btn:hover:not(:active) {
+    text-shadow: 1px 1px 3px white;
+}
+
+
+.form-info > a {
+    color: rgb(66, 71, 27)
 }

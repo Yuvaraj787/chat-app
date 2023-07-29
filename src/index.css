@@ -7,7 +7,7 @@
   --btn-clr: ;
   --btn-hv: ;
   --btn-act: ;
-  --lgn-bclr: ;
+  --lgn-bclr: var(--nav-clr);
 }
 
 body {

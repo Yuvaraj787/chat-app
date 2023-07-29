@@ -33,7 +33,7 @@ function ChatPage(props) {
       url:"https://api.openai.com/v1/chat/completions",
       method:"POST",
       headers:{
-        Authorization:"Bearer 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",
+        Authorization:"Bearer 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",
         ContentType:"application/json"
       },
       data:{
@@ -91,7 +91,7 @@ function ChatPage(props) {
                   {msg}
                 </div>
               )
-            }) : "Loading recommendations for you!"}
+            }) : <span className='rec-load'>Loading suggestions for you</span>}
           </div>}        
         <div className='type-area'>
             <input type="file" id="img" style={{display:"none"}} onChange={handleImg} />

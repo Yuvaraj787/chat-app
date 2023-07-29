@@ -44,6 +44,7 @@ function mainpage(props) {
   const name = cookie.get("username");
   
   useEffect(()=>{
+    document.title = "Chat App | Your Chats"
     axios({
       url:ApiUrl + "/getlist",
       method:"GET",
@@ -64,14 +65,12 @@ function mainpage(props) {
   },[])
   
   return (
+  contactsFetched && chatFetched ?
     <div className='main-page'>
-      {contactsFetched && chatFetched ?
-       <>
         <List onChange={setSelected} screen={fullScreen} username={name} cur={selected} stChats={setChats} select={selected} changeSocket={setSocket} list={chatList} setScreen={setFullScreen}/>
         <ChatPage details={selected} reqSocket={requiredSocket} setChats={setChats} curChats={currentChats}/> 
-       </> :
-       <LoadingPage contactStatus={contactsFetched} chatStatus={chatFetched} />}
-    </div>
+    </div> :
+    <LoadingPage contactStatus={contactsFetched} chatStatus={chatFetched} />
   )
 }
 

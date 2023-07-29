@@ -7,7 +7,7 @@
 .list-section {
     border-right: 1px solid grey;
     max-width: 300px;
-    transition: max-width 0.5s;
+    transition: max-width 0.9s;
     overflow-x: hidden;
 } 
 
@@ -121,19 +121,18 @@
     font-size: 1.2rem;
 }
 .add-btn {
-    border-radius: 9px;
     background-color: transparent;
     border: 0;
     display: flex;
     font-weight: 600;
     align-items: center;
-    column-gap: 5px;
     color: rgb(18, 116, 60);
     padding: 9px;
+    position: relative;
+    cursor: pointer;
 }
-.add-btn:hover {
-   cursor: pointer;
-}
+
+
 .list-head > span {
     display: flex;
     align-items: center;
@@ -160,4 +159,45 @@
     background-color: var(--rec-box-hv);
     padding: 2% 4%;
     margin: 2% 4%;
+}
+
+.rec-load {
+    font-size: 1.1rem;
+    width: 220px;
+    animation: blinking 3.5s infinite;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: width 1s;
+}
+
+.rec-load::after {
+    content: "";
+    margin-left: 3px;
+    font-size: 1.1rem;
+    font-weight: bolder;
+    /* animation: loadDot 0.9s infinite; */
+}
+
+@keyframes loadDot {
+    0% { content: "."}
+    30% { content: ".  ." }
+    70% { content: ".  .  ."; }
+}
+
+@keyframes blinking {
+    0% {
+        width: 0;
+        /* opacity: 1; */
+    }
+    60% {
+        width: 120px;
+    }
+    90% {
+        width: 190px;
+    }
+    100% {
+        width: 220px;
+        /* opacity: 1; */
+    }
 }

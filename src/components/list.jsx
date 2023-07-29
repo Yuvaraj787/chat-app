@@ -36,7 +36,6 @@ function OneBox(props) {
           var chat1 = JSON.parse(localStorage.getItem(props.oid+""));
           if (chat1[chat1.length - 1].message != data.message) 
             chat1.push({message:data.message, sent: false});
-          
           localStorage.setItem(props.oid+"",JSON.stringify(chat1))
           if (cookie.get("selected") == props.oid) {
             props.changeChat([...chat1]) 
@@ -44,7 +43,7 @@ function OneBox(props) {
         })
      },[socket])
      return (
-        <div className="OneBox" style={{backgroundColor:props.selected && "#99A98F",color:props.selected && "white"}} onClick={
+        <div className="OneBox" style={{backgroundColor:props.selected && "#aabd88", fontWeight: props.selected && "bold"}} onClick={
           () => {
             props.changeChat([...chats])
             cookie.set("selected",props.oid)

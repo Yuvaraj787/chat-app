@@ -9,6 +9,9 @@ import { Cookies } from 'react-cookie';
 import { ApiUrl } from '../components/comVars';
 function login(props) {
   const cookie = new Cookies();
+  useEffect(()=>{
+    document.title = "Chat App | Login"
+  })
   const navigate = useNavigate();
   const [userDetails, setDetails] = React.useState({email:"",pwd:""});
   const updateInfo = (e) => {
@@ -43,7 +46,7 @@ function login(props) {
         <div className='form-box'>
            <div className='input-box'><MailIcon /><input onChange={updateInfo} value={userDetails.email} name="email" className='input-cust' type="email" placeholder="Email Address" icon="MailIcon" /></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.pwd} name="pwd" className='input-cust' type="password" placeholder="Password" icon="Lock"/></div>
-           <button onClick={verify}>Login</button>
+           <button onClick={verify} className='lgn-btn'>Login</button>
         </div>
         <div className='form-foot'>
             <span className='form-info'>Don't have an account ? <a href='/signup'>Signup here</a></span>

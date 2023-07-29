@@ -27,6 +27,16 @@ var conn = new pg.Client({
     ssl: true
 });
 
+
+// var conn = new pg.Client({
+//     user: "chat_app_app@chatappserver1",
+//     password: "Summer_project",
+//     database: "citus",
+//     port: 5000,
+//     host: "chatappserver1.postgres.database.azure.com",
+//     // ssl: true
+// });
+
 // var conn = new pg.Client(url2);
 // PGHOST='chatapp77.database.windows.net'
 // PGDATABASE='chatapp'

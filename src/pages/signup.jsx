@@ -14,7 +14,10 @@ function SignUp(props) {
   const updateInfo = (e) => {
     setDetails({...userDetails,[e.target.name]:e.target.value});
   }
-  useEffect(props.onLoad,[])
+  useEffect(() => {
+    props.onLoad();
+    document.title = "Chat App | SignUp"
+  },[])
   const register = () => {
      axios({
         url:ApiUrl + "/signup",
@@ -46,7 +49,7 @@ function SignUp(props) {
            <div className='input-box'><MailIcon /><input onChange={updateInfo} value={userDetails.phone} name="phone" className='input-cust' type="tel" placeholder="Phone number" icon="MailIcon" /></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.pwd} name="pwd" className='input-cust' type="password" placeholder="Password" icon="Lock"/></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.cpwd} name="cpwd" className='input-cust' type="password" placeholder="Confirm Password" icon="Lock"/></div>
-           <button onClick={register}>Register</button>
+           <button onClick={register} className='lgn-btn'>Register</button>
         </div>
         <div className='form-foot'>
             <span className='form-info'>Already have an account ? <a href='/login'>login here</a></span>

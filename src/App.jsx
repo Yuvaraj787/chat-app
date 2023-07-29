@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./pages/login";
 import Navbar from './components/navbar';
 import Signup from './pages/signup';
+import LoadingPage from './components/LoadingPage';
 import Main from './pages/mainpage';
 import { Cookies } from 'react-cookie';
 import { ApiUrl } from './components/comVars';
@@ -58,6 +59,7 @@ function App() {
           <Route path="/"   element={<Login onLoad={verifyStatus}/>} />
           <Route path="/login"  element={<Login onLoad={verifyStatus}/>} />
           <Route path="/signup" element={<Signup onLoad={verifyStatus}/>} />
+          <Route path="/load" element={<LoadingPage />} />
           <Route path="/view" element={<Main />} />
       </Routes>
       </div>
