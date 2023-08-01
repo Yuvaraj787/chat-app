@@ -8,6 +8,7 @@ import axios from 'axios';
 function ChatPage(props) {
   const cookie = new Cookies()
   const [file, setFile] = useState("");
+  const [imgLoad, setImgLoad] = useState(false);
   // const [props.AllChats, setChats] = useState([]);
   const sendMessage = (e) => {
     e.preventDefault();
@@ -53,12 +54,20 @@ function ChatPage(props) {
   const [suggestions, setSuggestions] = useState([])
   const handleImg = (e) => {
     console.log("Image details")
-    setFile(URL.createObjectURL(e.target.files[0]));
+    const formData = new FormData();
+    formData.append("file",e.target.files[0]);
+    formData.append("upload_preset","n4930qx2");
+    setImgLoad(true);
+    document.getElementById("send-btn")?.click();                                   
+    axios.post("https://api.cloudinary.com/v1_1/dzcxy6zsg/image/upload",formData).then((res)=>{
+      console.log("Response from cloundinary : ",res);
+      setFile(res.data.secure_url);
+      setImgLoad(false);
+    }).catch((err)=>{
+      console.log("Error in uploading images to cloudinary : ",err.message);
+    })
     console.log(file);
   }
-  useEffect(()=>{
-    document.getElementById("send-btn")?.click();                                   
-  },[file])
     
   return (
     <div className='chat-page'>
@@ -73,13 +82,14 @@ function ChatPage(props) {
           {props.curChats.map(chat=>{
             return (
             <div className='par-msg-box' style={{display:"flex",justifyContent:chat.sent ? "flex-end" : "flex-start"}}> 
-                <ChatBox message={chat.message} side={chat.sent} type={chat.type}/>
+                <ChatBox message={chat.message} side={chat.sent} type={chat.type} imgLoad={imgLoad}/>
             </div>
             )
           })}
         </div>
         <form onSubmit={sendMessage}>
         <div>
+
         {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && <div style={{height:"80px"}} className='msg-rec'>
             <div className='rec-head'>    </div>
             {suggestions.length != 0 ? suggestions.map(msg=>{
@@ -95,6 +105,7 @@ function ChatPage(props) {
           </div>}        
         <div className='type-area'>
             <input type="file" id="img" style={{display:"none"}} onChange={handleImg} />
+            <img width="45" height="45" src="https://img.icons8.com/external-others-inmotus-design/67/external-Tic-Tac-Toe-round-icons-others-inmotus-design-5.png" alt="external-Tic-Tac-Toe-round-icons-others-inmotus-design-5"/>
             <AddPhotoAlternateIcon fontSize='large' onClick={() => document.getElementById("img").click()}/>
             <input type='text' className='chat-space' id="msg" placeholder="Message"/>
             <button className='send-btn' type='submit' id="send-btn" onClick={sendMessage}><SendIcon /> </button>
@@ -102,6 +113,10 @@ function ChatPage(props) {
         </div>
         </form>
         </>}
+
+
+
+        
     </div>
   )
 }

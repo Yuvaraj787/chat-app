@@ -54,6 +54,23 @@ var conn = new pg.Client({
 // });
 
 
+// cloudinary.config({ 
+//     cloud_name: 'dzcxy6zsg', 
+//     api_key: '867754147488345', 
+//     api_secret: "867754147488345" 
+// });
+
+// const storage = new CloudinaryStorage({
+//     cloudinary:cloudinary,
+//     params: {
+//         folder:"chatPhotos",
+//         format: async () => "png",
+//         public_id: (req,file) => file.filename
+//     }
+// })
+
+// const parser = multer({storage:storage});
+
 conn.connect((err)=>{
     if (err) console.log("Error in connecting to db : ",err.message)
     else console.log("Connected successfully to db")

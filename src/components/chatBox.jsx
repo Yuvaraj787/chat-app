@@ -12,7 +12,7 @@ function chatBox(props) {
         url:bingEndPoint+"/translate",
         method:"post",
         headers: {
-          'Ocp-Apim-Subscription-Key': "5e65ad6a50d4424ea7a561c119768ec1",
+          'Ocp-Apim-Subscription-Key': "69f3e3e6d6c14d648af0db92c52ecf44",
            // location required if you're using a multi-service or regional (not global) resource.
           'Ocp-Apim-Subscription-Region': "global",
           'Content-type': 'application/json'
@@ -42,7 +42,7 @@ function chatBox(props) {
             <div className='onechat' style={{borderRadius:props.side ? "13px 0 33px 13px" : "0 13px 13px 33px" }} >
              {
               props.type == "image" ? 
-              <img style={{height:"300px", width:"300px"}} src={props.message} />
+              <img style={{height:"300px", width:"300px"}} src={props.imgLoad ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" : props.message} />
              :
              <>
             {on ? text.original : text.translated}
@@ -50,7 +50,7 @@ function chatBox(props) {
             </>
              }
           </div>
-          {props.side != "image" && <div className='trans-side' style={{flexDirection:props.side ? "row-reverse" : "row"}} >
+          {props.type != "image" && <div className='trans-side' style={{flexDirection:props.side ? "row-reverse" : "row"}} >
             <span onClick={translate}><AutorenewIcon /></span>
            <span style={{fontStyle:"italic"}}>  {!on && "( Translated to tamil ) "} </span>
           </div>}
