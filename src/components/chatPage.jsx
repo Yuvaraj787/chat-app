@@ -34,7 +34,7 @@ function ChatPage(props) {
       url:"https://api.openai.com/v1/chat/completions",
       method:"POST",
       headers:{
-        Authorization:"Bearer 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",
+        Authorization:"Bearer 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",
         ContentType:"application/json"
       },
       data:{

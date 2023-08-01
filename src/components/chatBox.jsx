@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import axios from 'axios'
 import "../styles/chat.css"
+import ImageViewer from './imageViewer';
 function chatBox(props) {
   const [text, setText] = useState({original: props.message, translated : ""});
   const [on , setOn] = useState(true);
+  const [showFullScreen, setFullScreen] = useState(false);
   const bingEndPoint = "https://api.cognitive.microsofttranslator.com/"
   const translate = () => {
     if (text.translated == "") {
@@ -42,7 +44,10 @@ function chatBox(props) {
             <div className='onechat' style={{borderRadius:props.side ? "13px 0 33px 13px" : "0 13px 13px 33px" }} >
              {
               props.type == "image" ? 
-              <img style={{height:"300px", width:"300px"}} src={props.imgLoad ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" : props.message} />
+              <>
+                  <img style={{height:"300px", width:"300px"}} onClick={()=>{setFullScreen(true)}} src={props.imgLoad ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" : props.message} />
+                  <ImageViewer src={props.message} show={showFullScreen} setFullScreen={setFullScreen}/>
+              </>
              :
              <>
             {on ? text.original : text.translated}
