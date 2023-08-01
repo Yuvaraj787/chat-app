@@ -18,6 +18,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
  
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    console.log("App Running in " + process.env.NODE_ENV + " mode");
+  },[])
 
   const verifyStatus = async () => {
     console.log("Verifying login status")
