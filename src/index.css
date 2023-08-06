@@ -19,6 +19,10 @@
 body {
   padding: 0;
   margin: 0;
+  height: 100vh;
+    width: 100%;
+  background-color: #7892b2;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
 }
 body > div {
   opacity: 1;

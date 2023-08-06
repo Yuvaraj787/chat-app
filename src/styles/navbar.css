@@ -1,6 +1,6 @@
 .navbar {
     display: flex;
-    width: calc(100%); /* Adjust the value according to your padding/margin size */
+    /* width: 100%; Adjust the value according to your padding/margin size */
     flex-direction: row;
     justify-content: space-between;
     background-color: var(--nav-clr);   
@@ -11,14 +11,18 @@
     width: 2.1rem;
     aspect-ratio: 1;
 }
-
-.navbar > div {
+ 
+.first-half {
     display: flex;
     flex-direction: row;
 }
+
 .second-half {
+    display: flex;
     align-items: center;
     column-gap: 20px;
+    overflow-y: hidden;
+    transition: height 0.8s;
 }
 .nav-item {
     font-size: 1.7rem;
@@ -65,3 +69,30 @@
     text-decoration: none;
 }
 
+.inside-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.drop-menu {
+    display: none;
+}
+
+@media only screen 
+and (min-device-width : 220px) 
+and (max-device-width : 680px) {
+  .navbar {
+    flex-direction: column;
+  }
+  .second-half {
+    height: 0;
+    flex-direction: column;
+  }
+  .drop-menu {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -72,9 +72,10 @@
 }
 
 @media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 480px) {
+and (min-device-width : 220px) 
+and (max-device-width : 780px) {
   .align {
+    position: static;
     width: 100%;
   }
 }

@@ -55,6 +55,11 @@ function OneBox(props) {
            alignItems:"center"}}
     onClick={
       () => {
+        if (window.innerWidth < 600) {
+          document.querySelector(".list-section").style.maxWidth = "50px";
+          props.setFs(true);
+          document.querySelector(".chat-page").style.display = "flex";
+        }
         props.changeChat();
         console.log(chats);
         props.changeChat([...chats])
@@ -126,6 +131,9 @@ function List(props) {
           }
         } /> : <MenuOpenIcon sx={{ transform: "scaleX(-1)" }} className="i2" onClick={
           () => {
+            if (window.innerWidth < 600) {
+              document.querySelector(".chat-page").style.display = "none";
+            }
             document.querySelector(".list-section").style.maxWidth = "300px";
             setFs(false);
           }
@@ -162,6 +170,7 @@ function List(props) {
             sChange={props.changeSocket}
             roomid={e.roomid}
             oid={e.id}
+            setFs={setFs}
           />)
         })}
       </div>

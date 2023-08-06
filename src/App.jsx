@@ -57,7 +57,7 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <div>
+      <div style={{width:"100%"}}>
         <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
       </div>
       <div className='inside-app'>
