@@ -112,7 +112,7 @@ function ChatPage(props) {
             })}
           </div>
             <div>
-
+{/* 
               {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && <div style={{ height: "80px" }} className='msg-rec'>
                 <div className='rec-head'>    </div>
                 {suggestions.length != 0 ? suggestions.map(msg => {
@@ -125,7 +125,7 @@ function ChatPage(props) {
                     </div>
                   )
                 }) : <span className='rec-load'>Loading suggestions for you</span>}
-              </div>}
+              </div>} */}
               <div className='type-area'>
                 <input onKeyDown={(e)=>{
                    if (e.key == "Enter") document.getElementById("msg").click();
