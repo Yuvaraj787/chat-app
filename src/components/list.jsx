@@ -15,7 +15,7 @@ import { ApiUrl } from './comVars';
 
 function OneBox(props) {
   const cookie = new Cookies()
-  const socket = io.connect(ApiUrl)
+  const socket = io.connect(ApiUrl);
   const [sampleChats, setChats] = useState([]);
   const [fetched, setFetched] = useState(false);
   const [show, setShow] = useState(false);
@@ -33,19 +33,16 @@ function OneBox(props) {
   // }, [props.selected])
 
   useEffect(() => {
-    socket.once("receive_message", (data) => {
+    socket.on("receive_message", (data) => {
       if (data.userid != props.oid) return;
       setUnread(true)
-      console.log("1st : ", chats)
+      console.log("received message");
       var chat1 = JSON.parse(localStorage.getItem(props.oid + ""));
       // if (chat1[chat1.length - 1].message != data.message)
         chat1.push({ message: data.message, sent: false, type: data.type });
       localStorage.setItem(props.oid + "", JSON.stringify(chat1))
       if (cookie.get("selected") == props.oid) {
         props.changeChat([...chat1])
-      }
-      return () => {
-        socket.off("receive_message")
       }
     })
   }, [socket])
