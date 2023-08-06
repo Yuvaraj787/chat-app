@@ -4,7 +4,14 @@
     flex-direction: row;
     justify-content: space-between;
     background-color: var(--nav-clr);   
+    border-bottom: 2px solid black;
 }
+
+.brand-logo {
+    width: 2.1rem;
+    aspect-ratio: 1;
+}
+
 .navbar > div {
     display: flex;
     flex-direction: row;
@@ -19,10 +26,38 @@
     /* background-color: rgb(183, 166, 105); */
     margin-right: 5px;
 }
+.nav-item {
+    position: relative;
+    padding-bottom: 5px;
+}
+.nav-item > span::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.7s;
+}
+
+.nav-item:hover > span::after{
+    width: 100%;    
+}
+
+.nav-item:hover {
+    scale: 0.9;
+    transition: scale 1s;
+}
+
+
 .nav-brand {
     font-size: 1.7rem;
     font-weight: bolder;
+    font-family: var(--font-style-brand);
     padding: 12px;
+    display: flex;
+    column-gap: 0.6rem;
 }
 
 .nav-item > span > a {

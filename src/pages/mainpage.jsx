@@ -34,7 +34,7 @@ const downloadChats = async (list) => {
 }
 
 function mainpage(props) {
-  const [selected, setSelected] = useState({userid : -1, name:"",roomid:-1});
+  const [selected, setSelected] = useState({userid : -1, name:"",roomid:-1,dp:""});
   const [contactsFetched, setFetched] = useState(false);
   const [chatFetched, setChatFetched] = useState(false);
   const [fullScreen , setFullScreen] = useState(true);
@@ -66,7 +66,7 @@ function mainpage(props) {
   
   return (
   contactsFetched && chatFetched ?
-    <div className='main-page'>
+    <div className='main-page' >
         <List onChange={setSelected} screen={fullScreen} username={name} cur={selected} stChats={setChats} select={selected} changeSocket={setSocket} list={chatList} setScreen={setFullScreen}/>
         <ChatPage details={selected} reqSocket={requiredSocket} setChats={setChats} curChats={currentChats}/> 
     </div> :

@@ -123,9 +123,12 @@ io.on("connection",(socket)=>{
     })
 })
 
+
+
 app.post("/verify", verifyToken, (req,res)=>{
     res.json({verified:true});
 })
+
 
 app.post("/signup",async (req,res) => {
    const response = {uniqueEmail : true, otherErrors: false}
@@ -142,7 +145,7 @@ app.post("/signup",async (req,res) => {
    
    if (response.uniqueEmail) {
     try {
-       await conn.query("insert into userDetails (email,phone,username,password) values ($1,$2,$3,$4)",[data.email,data.phone,data.uname,data.pwd]) 
+       await conn.query("insert into userDetails (email,phone,username,password,dpImg) values ($1,$2,$3,$4,$5)",[data.email,data.phone,data.uname,data.pwd,data.img]) 
        console.log(`Inserting record for user ${data.uname} is success!`);
     } catch (err) {
        response.otherErrors = true
@@ -184,7 +187,7 @@ app.post("/login",async (req,res) => {
 app.get("/getlist", verifyToken, async (req,res)=>{
     var result = [];
     try {
-        const docs = await conn.query("select t.roomid, t.user1, t.user2, u1.username as username1, u2.username as username2 from chatrooms t join userDetails u1 on t.user1 = u1.userid join userDetails u2 on t.user2 = u2.userid where user1 = $1 or user2 = $1",[req.id])
+        const docs = await conn.query("select t.roomid, t.user1, t.user2, u1.username as username1, u2.username as username2,u1.dpImg as dp1,u2.dpImg as dp2  from chatrooms t join userDetails u1 on t.user1 = u1.userid join userDetails u2 on t.user2 = u2.userid where user1 = $1 or user2 = $1",[req.id])
         docs.rows.forEach(row => {
             if (row.user1 == req.id) {
                 result.push(
@@ -192,7 +195,8 @@ app.get("/getlist", verifyToken, async (req,res)=>{
                         id:row.user2,
                         name:row.username2,
                         roomid:row.roomid,
-                        selected:false
+                        selected:false,
+                        dp:row.dp2
                     }
                 )
             } else {
@@ -201,7 +205,8 @@ app.get("/getlist", verifyToken, async (req,res)=>{
                         id: row.user1,
                         name:row.username1,
                         roomid:row.roomid,
-                        selected:false
+                        selected:false,
+                        dp:row.dp1
                     }
                 )
             }
@@ -260,8 +265,8 @@ app.get("/getChat",verifyToken, async (req,res) => {
         console.log("Error in fetching chat :",err.message);
         res.json({success:false})
     }
-    console.log("Chat fetched : ",docs.rows);
-    console.log("opposite side : ",req.query);
+    // console.log("Chat fetched : ",docs.rows);
+    // console.log("opposite side : ",req.query);
     const response = docs.rows.map(row => {
         let data = {
             message : row.message,
@@ -273,6 +278,16 @@ app.get("/getChat",verifyToken, async (req,res) => {
     res.json({success:true,chats:response})
 })
 
-server.listen(process.env.PORT || 3000,() => {
+app.get("/dp",verifyToken, async (req,res) => {
+    await conn.query("select dpimg from userDetails where userid = $1",[req.id],(err,docs) => {
+        if (err) console.log("Error in getting dp ",err.message);
+        else {
+            console.log("Dp sent successfully")
+            res.json({dp:docs.rows[0].dpimg});
+        }
+    })
+})
+
+server.listen(process.env.PORT || 3000, () => {
     console.log("Server is running on port 3000");
 })

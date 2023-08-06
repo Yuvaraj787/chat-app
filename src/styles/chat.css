@@ -1,7 +1,10 @@
 .onechat {
-    background-color: var(--msg-box-clr);
+    /* background-color: var(--msg-box-clr);
+     */
+    background-color: #9d8965;
     border-radius:0 13px 13px 13px;
     margin: 15px;
+    color: black;
     display: inline-block;
     padding: 18px;
 }
@@ -20,12 +23,87 @@
     display: flex;
     flex-direction: column;
 }
+.game-req-div {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.7rem;
+}
 
+.game-req-text {
+    color: rgb(11, 5, 48);
+}
+
+.req-title {
+    position: relative;
+}
+
+.req-bottom {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.req-title::after {
+    content: "O";
+    animation: tic 6s infinite;
+    font-size: 1.2rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    letter-spacing: 4px;
+    transition: all 1s;
+}
+
+.opp-side-req {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.req-btns {
+    border: 0;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    padding: 3px 9px;
+}
+.acc {
+    background-color: rgb(81, 210, 102);
+}
+.rej {
+    background-color: rgb(169, 33, 2);
+    color: rgb(203, 194, 194);
+}
+
+@keyframes tic {
+    0% {
+      content: "O";
+    }
+    20% {
+        content: " O  O";
+        text-decoration: none;
+    } 
+    40% {
+        content: " O  O  O ";
+        text-decoration: none;
+    }
+    60% {
+        text-decoration: line-through;
+    }
+    80% {
+        content: "";
+    }
+}
 /* .onechat:hover + .trans-side {
     visibility: visible;
 } */
 
-
+.req-title {
+    font-weight: bolder;
+    font-size: 1.1rem;
+}
 
 .trans-side {
     display: flex;
@@ -42,3 +120,22 @@
     text-transform: capitalize;
 }
 
+.download-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    column-gap: 5px;
+    text-transform: uppercase;
+}
+
+.img-box > .download-btn {
+    position: absolute;
+    background-color: white;
+    font-size: 0.9rem;
+    border: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+}

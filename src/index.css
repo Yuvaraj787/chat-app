@@ -1,16 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Galdeano&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100&display=swap');
 :root {
-  background-color: #F6FFDE;
-  --msg-box-clr : #AAC8A7;
-  --rec-box-clr : #aabd88;
-  --rec-box-hv : #99A98F;
-  --nav-clr: #99A98F;
+  /* background-color: #64c4c3; */
+  opacity: 1;
+  --nav-clr: #bfddff6e;
+  --msg-box-clr : var(--nav-clr) ;
+  --rec-box-clr :var(--nav-clr) ;
+  --rec-box-hv : #7f94b0;
+    --text-clr: rgb(34, 34, 33);
   --btn-clr: ;
   --btn-hv: ;
   --btn-act: ;
   --lgn-bclr: var(--nav-clr);
+  --font-style: 'Galdeano', sans-serif;
+  --font-style-brand: 'Montserrat Alternates', sans-serif;
 }
 
 body {
   padding: 0;
   margin: 0;
+}
+body > div {
+  opacity: 1;
 }

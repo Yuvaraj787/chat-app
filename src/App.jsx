@@ -16,56 +16,58 @@ import './App.css';
 function App() {
   const cookie = new Cookies();
   const [loggedIn, setLoggedIn] = useState(false);
- 
+
   const navigate = useNavigate();
-  
-  useEffect(() => {
-    console.log("App Running in " + process.env.NODE_ENV + " mode");
-  },[])
 
   const verifyStatus = async () => {
     console.log("Verifying login status")
-      if (!cookie.get('token')) {
-        if (window.location.pathname == "/view") {
-            alert("Logged out");
-            navigate("/login");
-        }
-        setLoggedIn(false);
-      } else {
-
-          await axios({
-              url: ApiUrl + "/verify",
-              method: "POST",
-              headers:{
-                  "authtoken":cookie.get('token')
-              }
-          }).then((res)=>{
-              if (res.data.verified) {
-                  setLoggedIn(true);
-              } else {
-                 console.log(window.location.pathname);
-                    alert("Logged out");
-                    navigate("/login");
-                  setLoggedIn(false);
-              }
-          }).catch(err => {
-              console.log("Error in detecting user : ",err.message);
-          })
+    if (!cookie.get('token')) {
+      if (window.location.pathname == "/view") {
+        alert("Logged out");
+        navigate("/login");
       }
+      setLoggedIn(false);
+    } else {
+      await axios({
+        url: ApiUrl + "/verify",
+        method: "POST",
+        
+        headers: {
+          "authtoken": cookie.get('token')
+        }
+      }).then((res) => {
+        if (res.data.verified) {
+          console.log("Auth success");
+          setLoggedIn(true);
+        } else {
+          cookie.remove('token');
+          cookie.remove('username');
+          alert("Logged out");
+          navigate("/login");
+          setLoggedIn(false);
+        }
+      }).catch(err => {
+        console.log("Error in detecting user : ", err.message);
+      })
+    }
   }
+  useEffect(() => {
+    verifyStatus();
+    console.log("App Running in " + process.env.NODE_ENV + " mode");
+  }, [])
   return (
     <div className="App">
-    <div>
-    <Navbar loggedIn={loggedIn}/>
-    </div>
-    <div>
-      <Routes >
-          <Route path="/"   element={<Login onLoad={verifyStatus}/>} />
-          <Route path="/login"  element={<Login onLoad={verifyStatus}/>} />
-          <Route path="/signup" element={<Signup onLoad={verifyStatus}/>} />
+      <div>
+        <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      </div>
+      <div className='inside-app'>
+        <Routes >
+          <Route path="/" element={<Login  setLoggedIn={setLoggedIn}/>} />
+          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/load" element={<LoadingPage />} />
           <Route path="/view" element={<Main />} />
-      </Routes>
+        </Routes>
       </div>
     </div>
   )

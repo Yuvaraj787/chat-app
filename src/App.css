@@ -1,14 +1,22 @@
+.App {
+    background-color: #7892b2;
+    background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    height: 100vh;
+    font-family: var(--font-style);
+}
+
 button {
     font-size: 1.3rem;
     background-color: var(--btn-clr);
-    margin: 12px;
+    /* margin: 12px; */
     font-weight: bolder;
-    border: 1px solid rgb(133, 133, 220);
-    padding: 7px;
+    /* padding: 7px; */
     border-radius: 9px 11px;
     display: flex;
     flex-direction: row;
 }
+
 button:active {
     background-color: var(--btn-act);
 }
@@ -24,14 +32,14 @@ button:active {
     border: 0px;
     width: 100%;
     background-color: transparent;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid rgb(71, 70, 70);
     margin: 18px;
 }
 
 .input-cust:focus {
+    border-bottom: 3px solid black;
     outline: none;
 }
-
 .input-cust::placeholder {
     color:rgb(52, 50, 50)
 }

@@ -27,6 +27,7 @@ function login(props) {
     }).then((res)=>{
     if (res.data.correct) {
       alert("Login success!")
+      props.setLoggedIn(true);
       cookie.set("token",res.data.token);
       cookie.set("username", res.data.username);
       navigate("/view");

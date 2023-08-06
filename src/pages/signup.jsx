@@ -3,19 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/login.css"
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
+import { PhoneAndroidOutlined } from '@mui/icons-material';
 import axios from 'axios';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import BadgeIcon from '@mui/icons-material/Badge';
 import { ApiUrl } from '../components/comVars';
 
 
 function SignUp(props) {
   const navigate = useNavigate();
-  const [userDetails, setDetails] = useState({uname:"",email:"",pwd:"",cpwd:"",phone:""});
+  const [userDetails, setDetails] = useState({uname:"",email:"",pwd:"",cpwd:"",phone:"",img:""});
   const updateInfo = (e) => {
     setDetails({...userDetails,[e.target.name]:e.target.value});
   }
   useEffect(() => {
-    props.onLoad();
     document.title = "Chat App | SignUp"
   },[])
   const register = () => {
@@ -39,6 +40,20 @@ function SignUp(props) {
       console.log(err);
      })
   }
+
+  const handleImg = (e) => {
+    const formData = new FormData();
+    formData.append("file",e.target.files[0]);
+    formData.append("upload_preset","n4930qx2");
+    document.getElementById("send-btn")?.click();                                   
+    axios.post("https://api.cloudinary.com/v1_1/dzcxy6zsg/image/upload",formData).then((res)=>{
+      console.log("Response from cloundinary : ",res);
+      setDetails({...userDetails,"img":res.data.secure_url});
+      alert("Dp uploaded successfully");
+    }).catch((err)=>{
+      console.log("Error in uploading images to cloudinary : ",err.message);
+    })
+  }
   return (
     <div className='form-page'>
         <div className='align'>
@@ -46,9 +61,16 @@ function SignUp(props) {
         <div className='form-box'>
            <div className='input-box'><BadgeIcon /><input onChange={updateInfo} value={userDetails.uname} name="uname" className='input-cust' type="text" placeholder="Set a username" icon="BadgeIcon" /></div>
            <div className='input-box'><MailIcon /><input onChange={updateInfo} value={userDetails.email} name="email" className='input-cust' type="email" placeholder="Email Address" icon="MailIcon" /></div>
-           <div className='input-box'><MailIcon /><input onChange={updateInfo} value={userDetails.phone} name="phone" className='input-cust' type="tel" placeholder="Phone number" icon="MailIcon" /></div>
+           <div className='input-box'><PhoneAndroidOutlined /><input onChange={updateInfo} value={userDetails.phone} name="phone" className='input-cust' type="tel" placeholder="Phone number" icon="MailIcon" /></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.pwd} name="pwd" className='input-cust' type="password" placeholder="Password" icon="Lock"/></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.cpwd} name="cpwd" className='input-cust' type="password" placeholder="Confirm Password" icon="Lock"/></div>
+           <div className='input-box prof-pic'>
+            <InsertEmoticonIcon />
+            <input type='file' onChange={handleImg} id="dp-select" style={{display:"none"}} /><span onClick={
+            ()=>{
+              document.getElementById("dp-select").click();
+            }
+            } className='input-cust' style={{fontSize:"1.6rem",cursor:"pointer"}}>Choose profile picture</span></div>
            <button onClick={register} className='lgn-btn'>Register</button>
         </div>
         <div className='form-foot'>

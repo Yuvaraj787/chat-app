@@ -1,16 +1,27 @@
 .form-page {
     display: flex;
-    height: 80vh;
+    height: 90vh;
     align-items: center;
     justify-content: center;
 }
+
+.prof-pic {
+    background-color: #546273;
+    border-radius: 10px 15px;
+    padding:0 1%;
+    margin-bottom: 2%;
+}
+
 .align {
     background-color: var(--lgn-bclr);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 8px 14px rgba(0, 0, 0, 0.24);
     padding: 30px;
-    border-radius: 10px 17px;
-    width: 50%;
+    border-radius: 17px 27px;
+    width: 30%;
+    color: var(--text-clr);
     text-align: center;
 }
+
 .form-box {
     display: flex;
     flex-direction: column;
@@ -18,10 +29,12 @@
     align-items: center;
     margin: 12px;
 }
+
 .form-head {
     font-size: 1.9rem;
     font-weight: bolder;
 }
+
 .fix1 {
     margin-bottom: 30px;
 }
@@ -37,12 +50,13 @@
 }
 
 .lgn-btn {
-    background-color: rgb(89, 96, 39);
+    background-color: rgb(11, 122, 11);
     padding: 1% 2%;
-    border: 1px solid rgb(52, 57, 15);
-    box-shadow: 3px 3px 0 0 rgb(89, 96, 39);
+    border: 0;
+    box-shadow: 3px 3px 4px 0 rgb(77, 77, 76);
     transition: transform 0.2s, box-shadow 0.2s, text-shadow 0.1s
 }
+
 .lgn-btn:active {
     transform: translate(3px, 3px);
     box-shadow: 0 0 0 0;
@@ -56,3 +70,12 @@
 .form-info > a {
     color: rgb(66, 71, 27)
 }
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  .align {
+    width: 100%;
+  }
+}
+

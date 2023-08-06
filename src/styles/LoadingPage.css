@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 90vh;
+    backdrop-filter: blur(8px);
 }
 
 .load-main {
@@ -14,7 +15,7 @@
 .logo-img > div {
     height: 120px;
     aspect-ratio: 1;
-    background-image: url("../../public/icons8-chat-96.png");
+    background-image: url("./icons8-chat-96.png");
     background-repeat: no-repeat;
     object-fit: cover;
     margin: auto;
