@@ -26,34 +26,33 @@ function ChatPage(props) {
   const [thisChats, setThisChats] = useState(props.curChats);
 
   useEffect(() => {
-    
     if (props.details.name == "") return;
     setThisChats(props.curChats);
     console.log("logged in this page",[...props.curChats])
-    // setSuggestions([]);
-    // if (props.curChats.length == 0) return;
-    // if (props.curChats[props.curChats.length - 1].sent) return;
-    // console.log("Fetching started from chatgpt api");
-    // axios({
-    //   url: "https://api.openai.com/v1/chat/completions",
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: "Bearer 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",
-    //     ContentType: "application/json"
-    //   },
-    //   data: {
-    //     model: "gpt-3.5-turbo",
-    //     messages: [{
-    //       "role": "system",
-    //       "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for" + props.curChats[props.curChats.length - 1].message + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
-    //     }],
-    //     temperature: 0.7
-    //   }
-    // }).then((res) => {
-    //   setSuggestions(JSON.parse(res.data.choices[0].message.content))
-    // }).catch((err) => {
-    //   console.log("Error in gpt api ", err)
-    // })
+    setSuggestions([]);
+    if (props.curChats.length == 0) return;
+    if (props.curChats[props.curChats.length - 1].sent) return;
+    console.log("Fetching started from chatgpt api");
+    axios({
+      url: "https://api.openai.com/v1/chat/completions",
+      method: "POST",
+      headers: {
+        Authorization: "Bearer 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",
+        ContentType: "application/json"
+      },
+      data: {
+        model: "gpt-3.5-turbo-16k-0613",
+        messages: [{
+          "role": "system",
+          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for" + props.curChats[props.curChats.length - 1].message + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
+        }],
+        temperature: 0.7
+      }
+    }).then((res) => {
+      setSuggestions(JSON.parse(res.data.choices[0].message.content))
+    }).catch((err) => {
+      console.log("Error in gpt api ", err)
+    })
   }, [props.curChats])
   useEffect(()=>{
     if (props.details.name == "") return;
