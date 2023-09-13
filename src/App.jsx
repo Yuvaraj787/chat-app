@@ -8,7 +8,8 @@ import LoadingPage from './components/LoadingPage';
 import Main from './pages/mainpage';
 import { Cookies } from 'react-cookie';
 import { ApiUrl } from './components/comVars';
-
+import Profile from './pages/Profile/profile';
+import OtherProfile from "./pages/Profile/otherProfile";
 import axios from 'axios';
 // StyleSheets
 import './App.css';
@@ -67,6 +68,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/load" element={<LoadingPage />} />
           <Route path="/view" element={<Main />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userid" element={<OtherProfile />} />
         </Routes>
       </div>
     </div>

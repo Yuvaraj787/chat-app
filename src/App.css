@@ -46,3 +46,175 @@ button:active {
 .input-cust::placeholder {
     color:rgb(52, 50, 50)
 }
+
+
+/* Adnan */
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Image Hover Effect */
+.img-prof {
+    /* --g: 4px;     
+    --b: 12px;    */
+    --c: #088178;  
+    height: 200px;
+    aspect-ratio: 1;
+    /* padding: calc(var(--g) + var(--b)); */
+     /* height: 30px;
+    width: 30px; */
+    object-fit: cover; 
+    /* --_c: #0000 0 25%, var(--c) 0 50%; */
+    border-radius: 10px ;
+    /* --_g1: repeating-linear-gradient(90deg ,var(--_c)) repeat-x;
+    --_g2: repeating-linear-gradient(180deg,var(--_c)) repeat-y;
+    background:
+        var(--_g1) var(--_p, 25%) 0   ,var(--_g2) 0    var(--_p,125%),
+        var(--_g1) var(--_p,125%) 100%,var(--_g2) 100% var(--_p, 25%);
+    background-size: 200% var(--b),var(--b) 200%; */
+    cursor: pointer;
+    /* filter: grayscale(50%); */
+    transition: .3s;
+}
+
+.img-prof:hover {
+    /* --_p: 75%; */
+    filter: grayscale(0%);
+}
+
+/* Account Tab Navigation Styling */
+.profile-tab-nav {
+    background: #E3E6F3;
+    border-radius: 0px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.06);
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+.profile-tab-nav .img-square {
+    width: 200px;
+    height: 200px;
+    background-color: #E3E6F3;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-tab-nav .img-square  {
+    width: 100%;
+    height: auto;
+}
+
+.profile-tab-nav .hh4 {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.profile-tab-nav .nav-link {
+    padding: 10px 0;
+    color: #333;
+    transition: 0.3s;
+}
+
+.profile-tab-nav .nav-link.active {
+    color: #088178;
+    border-left: 5px solid #088178;
+    background-color: #f9f9f9;
+}
+
+/* Tab Content Styling */
+.tab-content {
+    flex: 1;
+    padding: 30px;
+    background: #E3E6F3;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content .hh3 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.tab-content .form-group label {
+    font-weight: 500;
+}
+
+.tab-content .form-control {
+    border-radius: 10px;
+}
+
+.btn-primary {
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    padding: 8px 20px;
+    margin: 0px 3px 6px;
+    text-align: center;
+    border: 2px solid rgb(255, 255, 255);
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    z-index: 0;
+}
+
+.btn-primary i {
+    padding-right: 8px;
+}
+
+.btn-primary .hb-border-bottom {
+    border-color: rgb(255, 255, 255);
+    transition-duration: 0.3s;
+    transition: border-left-color 0.1s linear 0.14s, border-top-color 0.1s linear 0.07s, border-right-color 0.1s linear 0s;
+}
+
+.btn-primary:hover .hb-border-bottom {
+    border-color: initial;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    transition: border-left-color 0.1s linear 0s, border-top-color 0.1s linear 0.07s, border-right-color 0.1s linear 0.14s;
+}
+
+.btn-light {
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    padding: 8px 20px;
+    margin: 0px 3px 6px;
+    text-align: center;
+    border: 2px solid rgb(255, 255, 255);
+    text-decoration: none;
+    color: rgb(85, 170, 255);
+    white-space: nowrap;
+    z-index: 0;
+}
+
+.btn-light i {
+    padding-right: 8px;
+}
+
+.btn-light .hb-border-bottom {
+    border-color: rgb(255, 255, 255);
+    transition-duration: 0.3s;
+    transition: border-left-color 0.1s linear 0.14s, border-top-color 0.1s linear 0.07s, border-right-color 0.1s linear 0s;
+}
+
+.btn-light:hover .hb-border-bottom {
+    border-color: initial;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    transition: border-left-color 0.1s linear 0s, border-top-color 0.1s linear 0.07s, border-right-color 0.1s linear 0.14s;
+}

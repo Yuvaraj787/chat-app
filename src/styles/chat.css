@@ -33,9 +33,9 @@
     color: rgb(11, 5, 48);
 }
 
-.req-title {
+/* .req-title {
     position: relative;
-}
+} */
 
 .req-bottom {
     display: flex;
@@ -43,7 +43,7 @@
     column-gap: 10px;
 }
 
-.req-title::after {
+/* .req-title::after {
     content: "O";
     animation: tic 6s infinite;
     font-size: 1.2rem;
@@ -52,7 +52,7 @@
     right: 0;
     letter-spacing: 4px;
     transition: all 1s;
-}
+} */
 
 .opp-side-req {
     display: flex;

@@ -1,0 +1,75 @@
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  /* h2{
+   text-decoration: underline;
+   color:ghostwhite;
+   font-size: 30px;
+  } */
+  
+.body-tag {
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    color:black;
+    display: flex;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    flex-direction: column;
+}
+  
+.container{
+    display: grid;
+    grid-template-columns: repeat(3,auto);
+  }
+  
+  .box{
+    width: 100px;
+    height: 100px;
+    border: 2px solid blanchedalmond;
+    box-shadow: 0 0 0 2px blanchedalmond;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color:aqua;
+    
+    font-size: 25px;
+  }
+  
+  #status{
+    padding: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:chartreuse;
+  }
+  
+  /* button{
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:white;
+    background-color:chocolate;
+    border: none;
+    border-radius: 3px;
+    margin-top: 40px;
+  } */
+  
+  .win{
+      animation: winAnimation ease-in-out 1s infinite;
+  }
+  
+  @keyframes winAnimation {
+    0%{background-color:hotpink;}
+    100%{background-color:cadetblue;}
+    
+  }

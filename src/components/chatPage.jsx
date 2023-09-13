@@ -7,6 +7,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
 import profileImg from "../assets/profile.png";
 import ImageViewer from './imageViewer';
+import Game from './game';
 function ChatPage(props) {
   const cookie = new Cookies()
   const [file, setFile] = useState("");
@@ -87,9 +88,23 @@ function ChatPage(props) {
     props.reqSocket.emit("send_message", {message: "Game request sent" ,  type: "game-request", room: props.details.roomid, senderToken: cookie.get("token") })
     document.querySelector("#msg").value = ""
   }
-
+  const [isGameOn, setGameOn] = useState(false);
+  const startGame = () => {
+    localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: "Request sent" , sent: true, type: "game-req-accept" }]))
+    props.setChats([...props.curChats, {message: "Request accepted" , sent: true, type: "game-req-accept"}])
+    console.log("Accepted : ", props)
+    props.reqSocket.emit("send_message", {message: "Request Accepted" ,  type: "game-req-accept", room: props.details.roomid, senderToken: cookie.get("token") })
+    document.querySelector("#msg").value = ""
+    setGameOn(true);
+  }
+  useEffect(()=>{
+    if (thisChats.length > 1 && thisChats[thisChats.length - 1].type == "game-req-accept") {
+      setGameOn(true);
+    }
+  },[thisChats])
   return (
     <div className='chat-page'>
+      <div style={{position:"absolute",left:0,top:0,display:!isGameOn && "none"}}><Game setGameOn={setGameOn} /></div>
       {props.details.name == "" ?
         <span style={{ margin: "auto", fontSize: "1.7rem" }}>Please select a name to start chat</span>
         :
@@ -97,7 +112,7 @@ function ChatPage(props) {
           <div className='chat-head'>
             <div style={{display:"flex",alignItems:"center",}}>
               <span><img onClick={()=>{setShow(true)}} style={{cursor:"pointer",height:"40px",width:"40px",borderRadius:"50%",objectFit:"cover"}} src={props.details.dp == null ? profileImg : props.details.dp} /></span>
-              <span className='c-head bold'>{props.details.name}</span>
+              <span className='c-head bold'><a style={{color:"black"}} href={"/profile/" + props.details.userid}>{props.details.name}</a></span>
               {show && <ImageViewer src={props.details.dp == null ? profileImg : props.details.dp} show={show} setFullScreen={setShow} /> }
             </div>
           </div>
@@ -105,7 +120,7 @@ function ChatPage(props) {
             {thisChats.map(chat => {
               return (
                 <div className='par-msg-box' style={{ display: "flex", justifyContent: chat.sent ? "flex-end" : "flex-start" }}>
-                  <ChatBox message={chat.message} side={chat.sent} type={chat.type} imgLoad={imgLoad} />
+                  <ChatBox message={chat.message} side={chat.sent} type={chat.type} imgLoad={imgLoad} setGameOn={setGameOn} isGameOn={setGameOn} startGame={startGame} />
                 </div>
               )
             })}

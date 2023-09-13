@@ -8,6 +8,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import Game from './game';
 
 function chatBox(props) {
   const [text, setText] = useState({original: props.message, translated : ""});
@@ -67,7 +68,9 @@ function chatBox(props) {
     }
     setFullScreen(true);
   }
+  const startGame = () => {
 
+  }
   return (
     <div className='ChatMsg'>
         <div className='oneChatDiv' style={{flexDirection:props.side ? "row-reverse" : "row"}}>        
@@ -104,7 +107,7 @@ function chatBox(props) {
                     You will be able to play once your friend accepts the request
                   </span>
                 </> : <div className='opp-side-req'>
-                  <button className='req-btns acc'><CheckIcon />Accept</button>
+                  <button className='req-btns acc' onClick={props.startGame}><CheckIcon />Accept</button>
                   <button className='req-btns rej'><CloseIcon />Reject</button>
                   </div> 
               }

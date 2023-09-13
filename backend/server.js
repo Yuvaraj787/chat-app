@@ -182,7 +182,26 @@ app.post("/login",async (req,res) => {
     }
 })
 
+app.get("/myprofile", verifyToken, async (req,res) => {
+    const docs = await conn.query("select * from userDetails where userid = $1",[req.id]);
+    res.json({details: docs.rows[0]});
+})
 
+app.get("/profile", verifyToken, async (req,res) => {
+    const docs = await conn.query("select * from userDetails where userid = $1",[req.query.userid]);
+    console.log(docs.rows[0]);
+    res.json({details: docs.rows[0]});
+})
+
+
+app.get("/setAbout", verifyToken, async (req, res) => {
+    try {
+        await conn.query("update userDetails set about = $1 where userid = $2",[req.query.about,req.id]);
+    } catch (err) {
+        res.json({success:false});
+    }
+    res.json({success:true});
+})
 
 app.get("/getlist", verifyToken, async (req,res)=>{
     var result = [];

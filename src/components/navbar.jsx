@@ -8,11 +8,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from "/icons8-chat-96.png"
 import MenuIcon from '@mui/icons-material/Menu';
 import { Close } from '@mui/icons-material';
+import ChatPage from './chatPage';
 
-function navbar(props) {
+function oNavbar(props) {
     const navigate = useNavigate();
     const [dp, setDp] = useState("");
     const [show, setShow] = useState(false);
+    const [path, setPath] = useState("");
     const cookie = new Cookies();
     const logout = () => {
         cookie.remove('token');
@@ -33,12 +35,16 @@ function navbar(props) {
             console.log("Dp is ", res.data.dp);
             setDp(res.data.dp);
         }).catch(err => {
-            console.log("Error in fetching dp in navbar : ", err.message);
+            console.log("Error in fetching dp in oNavbar : ", err.message);
         })
     }, [])
+    useEffect(()=>{
+        // alert("hi");
+        setPath(window.location.pathname);
+    })
     console.log("width > ", window.innerWidth);
     return (
-        <div className='navbar'>
+        <div className='oNavbar'>
             <div className='inside-nav'>
                 <div className='first-half'>
                     <div className='nav-brand'>
@@ -53,20 +59,26 @@ function navbar(props) {
                 </div>
             </div>
             <div className='second-half' style={{height:show && "20vh"}}>
-                <div className='nav-item'>
+            {props.loggedIn && <div className='nav-item'>
                     <span>
+                         <a style={{ cursor: "pointer" }} href='/view' className={path == "/view" && "setted"}>Chat</a>
+                    </span>
+                </div>}
+                <div className='nav-item'>
+                    <span className={path == "/login" && "setted"}>
                         {props.loggedIn ? <a style={{ cursor: "pointer" }} onClick={logout}>Logout</a> : <a href="/login">Login</a>}
                     </span>
                 </div>
+                
                 <div className='nav-item'>
-                    <span><a href="#">About</a></span>
+                    <span className={path == "/about" && "setted"}><a href="#">About</a></span>
                 </div>
                 <div className='nav-item'>
-                    <span><a href="/profile/">{props.loggedIn ? <img src={dp} style={{ height: "2.5rem", width: "2.5rem", borderRadius: "50%", objectFit: "cover", display: "flex", border: "1px solid black" }} /> : <AccountCircleIcon fontSize='large' sx={{ display: "flex" }} />}</a></span>
+                    <span className={path == "/profile" && "setted"}><a href="/profile">{props.loggedIn ? <img src={dp} style={{ height: "2.5rem", width: "2.5rem", borderRadius: "50%", objectFit: "cover", display: "flex", border: "1px solid black" }} /> : <AccountCircleIcon fontSize='large' sx={{ display: "flex" }} />}</a></span>
                 </div>
             </div>
         </div>
     )
 }
 
-export default navbar
+export default oNavbar
