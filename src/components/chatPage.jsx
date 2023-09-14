@@ -12,18 +12,28 @@ import Game from './game';
 function ChatPage(props) {
   const cookie = new Cookies();
   
-  const [file, setFile] = useState("");
   const [imgLoad, setImgLoad] = useState(false);
   const sendMessage = (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+    } catch(e) {
+      console.log(e.message);
+    }
     const mValue = document.querySelector("#msg").value;
-    if (mValue == '' && file == "") return;
-    localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: file ? file : mValue, sent: true, type: file ? "image" : "text" }]))
-    props.setChats([...props.curChats, { message: file ? file : mValue, sent: true, type: file ? "image" : "text" }])
-    props.reqSocket.emit("send_message", { message: file ? file : mValue, type: file ? "image" : "text", room: props.details.roomid, senderToken: cookie.get("token") })
-    setFile("");
+    if (mValue == '') return;
+    localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: mValue, sent: true, type: "text" }]))
+    props.setChats([...props.curChats, { message:  mValue, sent: true, type: "text" }])
+    props.reqSocket.emit("send_message", { message: mValue, type: "text", room: props.details.roomid, senderToken: cookie.get("token") })
     document.querySelector("#msg").value = ""
   }
+  const sendImg = (url) => {
+      const mValue = document.querySelector("#msg").value;
+      localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: url , sent: true, type: "image" }]))
+      props.setChats([...props.curChats, { message: url, sent: true, type: "image" }])
+      props.reqSocket.emit("send_message", { message: url, type: "image", room: props.details.roomid, senderToken: cookie.get("token") })
+      document.querySelector("#msg").value = ""
+    }
+  
   const [thisChats, setThisChats] = useState(props.curChats);
 
   useEffect(() => {
@@ -65,11 +75,9 @@ function ChatPage(props) {
     formData.append("file", e.target.files[0]);
     formData.append("upload_preset", "n4930qx2");
     setImgLoad(true);
-    document.getElementById("send-btn")?.click();
     axios.post("https://api.cloudinary.com/v1_1/dzcxy6zsg/image/upload", formData).then((res) => {
       console.log("Response from cloundinary : ", res);
-      setFile(res.data.secure_url);
-      document.getElementById("send-btn").click();
+      sendImg(res.data.secure_url);
       setImgLoad(false);
     }).catch((err) => {
       alert("Error in uploading image");

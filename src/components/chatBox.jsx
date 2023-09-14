@@ -79,7 +79,7 @@ function chatBox(props) {
               props.type == "image" ? 
               <div className="img-box"
                style={{position: !showFullScreen && "relative" }} onContextMenu={handleDownload}>
-                  <img onFocus={()=>setShowDwldBtn(false)} style={{height:"300px", width:"300px",outline:0,objectFit:"cover"}} onClick={getFullView} src={props.imgLoad ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" : props.message} />
+                  <img onFocus={()=>setShowDwldBtn(false)} style={{height:"300px", width:"300px",outline:0,objectFit:"cover"}} onClick={getFullView} src={!props.message ? "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" : props.message} />
                   <ImageViewer src={props.message} show={showFullScreen} setFullScreen={setFullScreen}/>
                   {showDwldBtn && <button className='download-btn'  onClick={download}>
                     <DownloadIcon />Download  
