@@ -69,8 +69,10 @@ function ChatPage(props) {
     axios.post("https://api.cloudinary.com/v1_1/dzcxy6zsg/image/upload", formData).then((res) => {
       console.log("Response from cloundinary : ", res);
       setFile(res.data.secure_url);
+      document.getElementById("send-btn").click();
       setImgLoad(false);
     }).catch((err) => {
+      alert("Error in uploading image");
       console.log("Error in uploading images to cloudinary : ", err.message);
     })
   }
