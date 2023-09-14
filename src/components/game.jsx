@@ -13,12 +13,15 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
             c[i][j] = localStorage.getItem("uservalue");
             var m = checkWinner(c);
             if (m[0]) {
-                alert("You win !");
                 setWin(true);
+                makeMove(c);
+                return;
             }
             if (m[1]) {
-                alert("Match draw !");
                 setDraw(true);
+                makeMove(c);
+
+                return;
             }
             setTurn(false);
             makeMove(c);
@@ -66,6 +69,9 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
       }
     useEffect(()=>{
         setTurn(true);
+        setDraw(false);
+        setWin(false);
+        setLose(false);
         console.log("Vlues");
         console.log(values);
         const l = checkWinner(values);
@@ -86,16 +92,17 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
 
   
     return (
-        <div className='body-tag'>
+        <div className='body-tag' style={{backgroundColor:"#727578"}}>
             <div style={{textAlign:"center"}}>
-            <button onClick={()=>{setGameOn(false)}} style={{margin:"auto",position:"absolute",top:"10%",left:"46%"}}>close</button>
+            <button onClick={()=>{setGameOn(false)}} style={{margin:"10% auto"}}>close</button>
             <h2> Tic Tac Toc </h2>
             <br />
             {draw && <h1>Match draw</h1>}
-            {wini ? <h1>You Win :)</h1> : 
+            {wini ? <h1 style={{color:"#2fd667"}}>You Win :)</h1> : 
             lose && <h1>You lose :(</h1>
             }
-            
+            {turn ? <h2>Your turn now</h2> : <h2>Your friend turn</h2>}
+            <h2>Your are {localStorage.getItem("uservalue")}</h2>
             <br />
             <div class="container">
                 <div class="box" onClick={()=>{turn && boxClick(0,0)}}>{values != undefined && values[0][0]}</div>

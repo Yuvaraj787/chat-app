@@ -172,7 +172,7 @@ app.post("/login",async (req,res) => {
                 response.correct = true
                 response.username = docs.rows[0].username
                 response.token = jwt.sign({id : docs.rows[0].userid},"key1",{
-                    expiresIn: 9000
+                    expiresIn: 29000
                 });
                 response.wrgPwd = false;
                 console.log("Pwd correct ! Login success!");
