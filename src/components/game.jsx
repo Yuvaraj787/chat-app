@@ -12,6 +12,7 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
     }
     useEffect(()=>{
         setTurn(true);
+        console.log("Vlues");
         console.log(values);
     },[values])
     return (

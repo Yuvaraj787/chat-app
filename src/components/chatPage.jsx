@@ -1,3 +1,4 @@
+const dotenv = require('dotenv');
 import React, { useState } from 'react'
 import ChatBox from "./chatBox"
 import { useEffect } from 'react';
@@ -9,7 +10,8 @@ import profileImg from "../assets/profile.png";
 import ImageViewer from './imageViewer';
 import Game from './game';
 function ChatPage(props) {
-  const cookie = new Cookies()
+  const cookie = new Cookies();
+  const env = dotenv.config().parsed;
   const [file, setFile] = useState("");
   const [imgLoad, setImgLoad] = useState(false);
   // const [props.AllChats, setChats] = useState([]);
@@ -38,11 +40,11 @@ function ChatPage(props) {
       url: "https://api.openai.com/v1/chat/completions",
       method: "POST",
       headers: {
-        Authorization: "Bearer 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",
+        Authorization: `Bearer ${process.env.CHAT_GPT_KEY}`,
         ContentType: "application/json"
       },
       data: {
-        model: "gpt-3.5-turbo-16k-0613",
+        model: "gpt-3.5-turbo",
         messages: [{
           "role": "system",
           "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for" + props.curChats[props.curChats.length - 1].message + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
