@@ -110,6 +110,10 @@ io.on("connection",(socket)=>{
         console.log(mdata);
         const id = jwt.decode(mdata.senderToken).id;
         console.log("Sender id : ",id);
+        console.log(mdata);
+        if (mdata.type == "req-game-values") {
+            console.log("game values received : ",mdata.values);
+        }
         try {
             await conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
         } catch (err) {

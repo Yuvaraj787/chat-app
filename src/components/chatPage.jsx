@@ -38,7 +38,7 @@ function ChatPage(props) {
       url: "https://api.openai.com/v1/chat/completions",
       method: "POST",
       headers: {
-        Authorization: "Bearer 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",
+        Authorization: "Bearer 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",
         ContentType: "application/json"
       },
       data: {
@@ -82,6 +82,12 @@ function ChatPage(props) {
   const [show, setShow] = useState(false);
 
   const giveGameRequest = () => {
+    setValues([
+      ['.','.','.'],
+      ['.','.','.'],
+      ['.','.','.']
+    ])
+    localStorage.setItem("uservalue","X");
     localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: "Game request sent" , sent: true, type: "game-request" }]))
     props.setChats([...props.curChats, {message: "Game request sent" , sent: true, type: "game-request"}])
     console.log("Message sent request : ", props)
@@ -89,7 +95,20 @@ function ChatPage(props) {
     document.querySelector("#msg").value = ""
   }
   const [isGameOn, setGameOn] = useState(false);
+
+  const [gameValues, setValues] = useState([
+    ['.','.','.'],
+    ['.','.','.'],
+    ['.','.','.']
+  ]);
+
   const startGame = () => {
+    localStorage.setItem("uservalue","O");
+    setValues([
+      ['.','.','.'],
+      ['.','.','.'],
+      ['.','.','.']
+    ])
     localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: "Request sent" , sent: true, type: "game-req-accept" }]))
     props.setChats([...props.curChats, {message: "Request accepted" , sent: true, type: "game-req-accept"}])
     console.log("Accepted : ", props)
@@ -97,14 +116,22 @@ function ChatPage(props) {
     document.querySelector("#msg").value = ""
     setGameOn(true);
   }
+  const makeMove = (gvalues) => {
+    props.reqSocket.emit("send_message", { message: "game move", type: "req-game-values", values: gvalues, room: props.details.roomid, senderToken: cookie.get("token") })
+  }
+  
   useEffect(()=>{
     if (thisChats.length > 1 && thisChats[thisChats.length - 1].type == "game-req-accept") {
       setGameOn(true);
     }
+    if (thisChats.length > 1 && thisChats[thisChats.length - 1].type == "req-game-values") {
+      setValues(thisChats[thisChats.length - 1].values);
+    }
   },[thisChats])
+
   return (
     <div className='chat-page'>
-      <div style={{position:"absolute",left:0,top:0,display:!isGameOn && "none"}}><Game setGameOn={setGameOn} /></div>
+      <div style={{position:"absolute",left:0,top:0,display:!isGameOn && "none"}}><Game setGameOn={setGameOn} setValues={setValues} makeMove={makeMove} values={gameValues} roomid={props.details.roomid} sock={props.reqSocket}/></div>
       {props.details.name == "" ?
         <span style={{ margin: "auto", fontSize: "1.7rem" }}>Please select a name to start chat</span>
         :
@@ -126,12 +153,12 @@ function ChatPage(props) {
             })}
           </div>
             <div>
-{/* 
+
               {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && <div style={{ height: "80px" }} className='msg-rec'>
                 <div className='rec-head'>    </div>
                 {suggestions.length != 0 ? suggestions.map(msg => {
                   return (
-                    <div className='one-rec' onClick={() => {
+                    <div className='one-rec' style={{color:"black"}} onClick={() => {
                       document.getElementById("msg").value = msg;
                       document.getElementById("send-btn").click();
                     }}>
@@ -139,7 +166,7 @@ function ChatPage(props) {
                     </div>
                   )
                 }) : <span className='rec-load'>Loading suggestions for you</span>}
-              </div>} */}
+              </div>}
               <div className='type-area'>
                 <input onKeyDown={(e)=>{
                    if (e.key == "Enter") document.getElementById("msg").click();
