@@ -36,10 +36,11 @@ function OneBox(props) {
     socket.on("receive_message", (data) => {
       if (data.userid != props.oid) return;
       setUnread(true)
-      console.log("received message");
+      console.log("received message check2");
+      console.log(data);
       var chat1 = JSON.parse(localStorage.getItem(props.oid + ""));
       // if (chat1[chat1.length - 1].message != data.message)
-        chat1.push({ message: data.message, sent: false, type: data.type });
+        chat1.push({ message: data.message, sent: false, type: data.type, values: data.values });
       localStorage.setItem(props.oid + "", JSON.stringify(chat1))
       if (cookie.get("selected") == props.oid) {
         props.changeChat([...chat1])

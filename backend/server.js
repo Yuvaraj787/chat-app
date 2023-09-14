@@ -122,7 +122,8 @@ io.on("connection",(socket)=>{
         socket.to(mdata.room).emit("receive_message",{
             message: mdata.message,
             userid : id,
-            type: mdata.type
+            type: mdata.type,
+            values:mdata.values
         })
     })
 })

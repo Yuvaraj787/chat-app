@@ -29,11 +29,9 @@ function ChatPage(props) {
   useEffect(() => {
     if (props.details.name == "") return;
     setThisChats(props.curChats);
-    // console.log("logged in this page",[...props.curChats])
     setSuggestions([]);
     if (props.curChats.length == 0) return;
     if (props.curChats[props.curChats.length - 1].sent) return;
-    console.log("Fetching started from chatgpt api");
     axios({
       url: "https://api.openai.com/v1/chat/completions",
       method: "POST",
@@ -63,7 +61,6 @@ function ChatPage(props) {
 
   const [suggestions, setSuggestions] = useState([])
   const handleImg = (e) => {
-    // console.log("Image details")
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     formData.append("upload_preset", "n4930qx2");
@@ -76,7 +73,6 @@ function ChatPage(props) {
     }).catch((err) => {
       console.log("Error in uploading images to cloudinary : ", err.message);
     })
-    console.log(file);
   }
 
   const [show, setShow] = useState(false);
@@ -89,7 +85,6 @@ function ChatPage(props) {
     localStorage.setItem("uservalue","X");
     localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: "Game request sent" , sent: true, type: "game-request" }]))
     props.setChats([...props.curChats, {message: "Game request sent" , sent: true, type: "game-request"}])
-    console.log("Message sent request : ", props)
     props.reqSocket.emit("send_message", {message: "Game request sent" ,  type: "game-request", room: props.details.roomid, senderToken: cookie.get("token") })
     document.querySelector("#msg").value = ""
   }
@@ -143,6 +138,9 @@ function ChatPage(props) {
           </div>
           <div className='mid-area' id="chat-space">
             {thisChats.map(chat => {
+              if (chat.type == "req-game-values") {
+                return;
+              }
               return (
                 <div className='par-msg-box' style={{ display: "flex", justifyContent: chat.sent ? "flex-end" : "flex-start" }}>
                   <ChatBox message={chat.message} side={chat.sent} type={chat.type} imgLoad={imgLoad} setGameOn={setGameOn} isGameOn={setGameOn} startGame={startGame} />
