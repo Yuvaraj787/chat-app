@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+// import 'dotenv/config'
 import React, { useState } from 'react'
 import ChatBox from "./chatBox"
 import { useEffect } from 'react';
@@ -11,17 +11,15 @@ import ImageViewer from './imageViewer';
 import Game from './game';
 function ChatPage(props) {
   const cookie = new Cookies();
-  const env = dotenv.config().parsed;
+  
   const [file, setFile] = useState("");
   const [imgLoad, setImgLoad] = useState(false);
-  // const [props.AllChats, setChats] = useState([]);
   const sendMessage = (e) => {
     e.preventDefault();
     const mValue = document.querySelector("#msg").value;
     if (mValue == '' && file == "") return;
     localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: file ? file : mValue, sent: true, type: file ? "image" : "text" }]))
     props.setChats([...props.curChats, { message: file ? file : mValue, sent: true, type: file ? "image" : "text" }])
-    console.log("Message sent request : ", props)
     props.reqSocket.emit("send_message", { message: file ? file : mValue, type: file ? "image" : "text", room: props.details.roomid, senderToken: cookie.get("token") })
     setFile("");
     document.querySelector("#msg").value = ""
@@ -31,7 +29,7 @@ function ChatPage(props) {
   useEffect(() => {
     if (props.details.name == "") return;
     setThisChats(props.curChats);
-    console.log("logged in this page",[...props.curChats])
+    // console.log("logged in this page",[...props.curChats])
     setSuggestions([]);
     if (props.curChats.length == 0) return;
     if (props.curChats[props.curChats.length - 1].sent) return;
@@ -40,7 +38,7 @@ function ChatPage(props) {
       url: "https://api.openai.com/v1/chat/completions",
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.CHAT_GPT_KEY}`,
+        Authorization: `Bearer ${import.meta.env.VITE_KEY}`,
         ContentType: "application/json"
       },
       data: {
@@ -65,7 +63,7 @@ function ChatPage(props) {
 
   const [suggestions, setSuggestions] = useState([])
   const handleImg = (e) => {
-    console.log("Image details")
+    // console.log("Image details")
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     formData.append("upload_preset", "n4930qx2");
@@ -82,7 +80,6 @@ function ChatPage(props) {
   }
 
   const [show, setShow] = useState(false);
-
   const giveGameRequest = () => {
     setValues([
       ['.','.','.'],
@@ -113,7 +110,6 @@ function ChatPage(props) {
     ])
     localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: "Request sent" , sent: true, type: "game-req-accept" }]))
     props.setChats([...props.curChats, {message: "Request accepted" , sent: true, type: "game-req-accept"}])
-    console.log("Accepted : ", props)
     props.reqSocket.emit("send_message", {message: "Request Accepted" ,  type: "game-req-accept", room: props.details.roomid, senderToken: cookie.get("token") })
     document.querySelector("#msg").value = ""
     setGameOn(true);
