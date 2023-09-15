@@ -10,6 +10,7 @@ import { Cookies } from 'react-cookie';
 import { ApiUrl } from './components/comVars';
 import Profile from './pages/Profile/profile';
 import OtherProfile from "./pages/Profile/otherProfile";
+import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 // StyleSheets
 import './App.css';
@@ -72,6 +73,9 @@ function App() {
           <Route path="/profile/:userid" element={<OtherProfile />} />
         </Routes>
       </div>
+      <Toaster
+      position="top-center"
+      />
     </div>
   )
 }

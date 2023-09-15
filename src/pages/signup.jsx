@@ -4,6 +4,7 @@ import "../styles/login.css"
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
 import { PhoneAndroidOutlined } from '@mui/icons-material';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import BadgeIcon from '@mui/icons-material/Badge';
@@ -20,6 +21,7 @@ function SignUp(props) {
     document.title = "Chat App | SignUp"
   },[])
   const register = () => {
+    const id = toast.loading('Loading...');
      axios({
         url:ApiUrl + "/signup",
         method:"POST",
@@ -27,17 +29,17 @@ function SignUp(props) {
         params: userDetails,
      }).then((res)=>{
       if (res.data.otherErrors) {
-        alert("Something wrong in credientals")
+        toast.error("Enter valid details",{ id })
       } else {
           if (!res.data.uniqueEmail) {
-            alert("Email already used")
+            toast.error("Email already registered",{ id })
           } else {
-            alert("Successfully account created !. Login to continue.")
+            toast.success("Account created sucessfully. Login to continue",{ id })
             navigate("/login")
           }
         } 
      }).catch((err)=>{
-      console.log(err);
+      toast.error("Something wrong happened Reason : " + err.message,{ id });
      })
   }
 
@@ -45,12 +47,14 @@ function SignUp(props) {
     const formData = new FormData();
     formData.append("file",e.target.files[0]);
     formData.append("upload_preset","n4930qx2");
-    document.getElementById("send-btn")?.click();                                   
+    document.getElementById("send-btn")?.click();
+    const id = toast.loading("Uploading Image...");                                   
     axios.post("https://api.cloudinary.com/v1_1/dzcxy6zsg/image/upload",formData).then((res)=>{
       console.log("Response from cloundinary : ",res);
       setDetails({...userDetails,"img":res.data.secure_url});
-      alert("Dp uploaded successfully");
+      toast.success("Dp uploaded successfully", {id});
     }).catch((err)=>{
+      toast.error("Dp not uploaded Reason : " + err.message, {id});
       console.log("Error in uploading images to cloudinary : ",err.message);
     })
   }

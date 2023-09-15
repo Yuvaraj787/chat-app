@@ -9,6 +9,7 @@ import logo from "/icons8-chat-96.png"
 import MenuIcon from '@mui/icons-material/Menu';
 import { Close } from '@mui/icons-material';
 import ChatPage from './chatPage';
+import toast from 'react-hot-toast';
 
 function oNavbar(props) {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ function oNavbar(props) {
         cookie.remove('token');
         cookie.remove('username');
         localStorage.clear();
-        alert("Logout successfull!");
+        toast.success("Logout successfull!");
         props.setLoggedIn(false);
         navigate("/login");
     }
@@ -39,7 +40,6 @@ function oNavbar(props) {
         })
     }, [])
     useEffect(()=>{
-        // alert("hi");
         setPath(window.location.pathname);
     })
     console.log("width > ", window.innerWidth);

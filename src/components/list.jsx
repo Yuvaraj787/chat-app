@@ -12,6 +12,7 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import CloseIcon from '@mui/icons-material/Close';
 import ImageViewer from './imageViewer';
 import { ApiUrl } from './comVars';
+import toast from 'react-hot-toast';
 
 function OneBox(props) {
   const cookie = new Cookies()
@@ -36,14 +37,15 @@ function OneBox(props) {
     socket.on("receive_message", (data) => {
       if (data.userid != props.oid) return;
       setUnread(true)
-      console.log("received message check2");
       console.log(data);
       var chat1 = JSON.parse(localStorage.getItem(props.oid + ""));
       // if (chat1[chat1.length - 1].message != data.message)
-        chat1.push({ message: data.message, sent: false, type: data.type, values: data.values });
+      chat1.push({ message: data.message, sent: false, type: data.type, values: data.values });
       localStorage.setItem(props.oid + "", JSON.stringify(chat1))
       if (cookie.get("selected") == props.oid) {
         props.changeChat([...chat1])
+      } else {
+        toast(`Message received from ${props.name} : ${chat1[chat1.length - 1].message}`);
       }
     })
   }, [socket])
@@ -97,6 +99,7 @@ function List(props) {
   const updateEmail = (e) => setEmail(e.target.value);
 
   const addChat = () => {
+    let id = toast.loading("Searching for the contact....");
     axios({
       url: ApiUrl + "/addchat",
       method: "POST",
@@ -107,14 +110,15 @@ function List(props) {
     }).then((res) => {
       if (res.data.wrongToken) logout()
       if (res.data.success) {
-        alert("Successfully added");
+        toast.success("Successfully added", { id });
         window.location.reload();
       } else if (res.data.alreadyExist) {
-        alert("Already exist")
+        toast.error("Contact Already exist", { id })
       } else if (res.data.NotExist) {
-        alert("Given Email not registered")
+        toast.error("Given email not registered", { id })
       }
     }).catch((err) => {
+      toast.error("Error in adding contact. Reason " + err.message, { id })
       console.log("Error in adding chat : ", err.message);
     })
   }

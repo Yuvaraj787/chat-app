@@ -6,6 +6,7 @@ import { Cookies } from 'react-cookie';
 import SendIcon from '@mui/icons-material/Send';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import profileImg from "../assets/profile.png";
 import ImageViewer from './imageViewer';
 import Game from './game';
@@ -74,13 +75,15 @@ function ChatPage(props) {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     formData.append("upload_preset", "n4930qx2");
+    let id = toast.loading("Uploading image");
     setImgLoad(true);
     axios.post("https://api.cloudinary.com/v1_1/dzcxy6zsg/image/upload", formData).then((res) => {
       console.log("Response from cloundinary : ", res);
+      toast.success("Image uploaded successfully.",{ id });
       sendImg(res.data.secure_url);
       setImgLoad(false);
     }).catch((err) => {
-      alert("Error in uploading image");
+      toast.error("Error in uploading image. Reason : " + err.message,{ id });
       console.log("Error in uploading images to cloudinary : ", err.message);
     })
   }

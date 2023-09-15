@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { ApiUrl } from '../../components/comVars';
+import toast from 'react-hot-toast';
 function Profile() {
 	const [details, setDetails] = useState({});
 	const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ function Profile() {
 		})
 	},[])
 	const updateAbout = () => {
+		let id = toast.loading("Updating in progress...");
 		axios.get(ApiUrl + "/setAbout", {
 			params: {
 				about:document.getElementById("about-value").value
@@ -28,7 +30,7 @@ function Profile() {
 			}
 		}).then((res) => {
 			if (res.data.success) {
-				alert("about updated successfully");
+				toast.success("about updated successfully", { id });
 			}
 		})
 	}

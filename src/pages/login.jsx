@@ -4,6 +4,7 @@ import "../styles/login.css"
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
 import BadgeIcon from '@mui/icons-material/Badge';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { ApiUrl } from '../components/comVars';
@@ -20,23 +21,36 @@ function login(props) {
   
   const verify = () => {
     localStorage.clear();
+    const toastId = toast.loading('Loading...');
     axios({
       url:ApiUrl + "/login",
       method:"POST",
       params: userDetails,
     }).then((res)=>{
     if (res.data.correct) {
-      alert("Login success!")
+      toast.success('Logged successfully', {
+        id: toastId,
+      });
       props.setLoggedIn(true);
       cookie.set("token",res.data.token);
       cookie.set("username", res.data.username);
       navigate("/view");
     } else {
-      if (res.data.newEmail) alert("Email not already registered!")
-      else if (res.data.wrgPwd) alert("Wrong password")
+      if (res.data.newEmail) {
+        toast.error("Email not already registered!",{
+          id:toastId
+        })
+      }
+      else if (res.data.wrgPwd) {
+        toast.error("Wrong answer",{
+          id:toastId
+        })
+      }
     } 
    }).catch((err)=>{
-    console.log(err);
+    toast.error("Login failed ! Reason : " + err.message,{
+      id:toastId
+    })
    })
   }
   

@@ -3,6 +3,7 @@ import List from "../components/list"
 import ChatPage from "../components/chatPage"
 import "../styles/mainpage.css"
 import axios from 'axios'
+import toast from 'react-hot-toast'
 import LoadingPage from "../components/LoadingPage"
 import { Cookies } from 'react-cookie'
 import { ApiUrl } from '../components/comVars'
@@ -24,7 +25,7 @@ const downloadChats = async (list) => {
           console.log(res.data.chats)
           localStorage.setItem(list[i].id+"",JSON.stringify(res.data.chats))
         } else {
-          alert("Error in fetching chats of this person please try again later");
+          toast.success("Error in fetching chats of this person please try again later");
         }
         }).catch(err=>{
           console.log("Error in getting the chat of this person");
