@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/login.css"
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
+import { validateEmail, validatePhone } from '../components/functions';
 import { PhoneAndroidOutlined } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -20,7 +21,30 @@ function SignUp(props) {
   useEffect(() => {
     document.title = "Chat App | SignUp"
   },[])
-  const register = () => {
+  const register = (e) => {
+    e.preventDefault();
+    let missingFields = [];
+    Object.keys(userDetails).forEach(key => {
+      if (userDetails[key] == "") missingFields.push(document.getElementsByName(key)[0].placeholder);
+    })
+    if (missingFields.length > 0) {
+      let warnMessage = "Missing fields : ";
+      let fields = missingFields.reduce((first, second) => first + ", " + second);
+      toast.error(warnMessage + fields);
+      return;
+    }
+    if (!validateEmail(userDetails.email)) {
+      toast.error("Enter a valid email !");
+      return;
+    }
+    if (!validatePhone(userDetails.phone)) {
+      toast.error("Enter a valid phone !");
+      return;
+    }
+    if (userDetails.pwd != userDetails.cpwd) {
+      toast.error("Password field and confirm pssword field doesn't match!");
+      return;
+    }
     const id = toast.loading('Loading...');
      axios({
         url:ApiUrl + "/signup",
@@ -62,15 +86,16 @@ function SignUp(props) {
     <div className='form-page'>
         <div className='align'>
         <div className='fix1'><span className='form-head'>Sign up</span></div>
+        <form>
         <div className='form-box'>
-           <div className='input-box'><BadgeIcon /><input onChange={updateInfo} value={userDetails.uname} name="uname" className='input-cust' type="text" placeholder="Set a username" icon="BadgeIcon" /></div>
+           <div className='input-box'><BadgeIcon /><input onChange={updateInfo} value={userDetails.uname} name="uname" className='input-cust' type="text" placeholder="username" icon="BadgeIcon" /></div>
            <div className='input-box'><MailIcon /><input onChange={updateInfo} value={userDetails.email} name="email" className='input-cust' type="email" placeholder="Email Address" icon="MailIcon" /></div>
            <div className='input-box'><PhoneAndroidOutlined /><input onChange={updateInfo} value={userDetails.phone} name="phone" className='input-cust' type="tel" placeholder="Phone number" icon="MailIcon" /></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.pwd} name="pwd" className='input-cust' type="password" placeholder="Password" icon="Lock"/></div>
            <div className='input-box'><LockIcon /><input onChange={updateInfo} value={userDetails.cpwd} name="cpwd" className='input-cust' type="password" placeholder="Confirm Password" icon="Lock"/></div>
            <div className='input-box prof-pic'>
             <InsertEmoticonIcon />
-            <input type='file' onChange={handleImg} id="dp-select" style={{display:"none"}} /><span onClick={
+            <input name="img" placeholder='profile picture' type='file' onChange={handleImg} id="dp-select" style={{display:"none"}} /><span onClick={
             ()=>{
               document.getElementById("dp-select").click();
             }
@@ -80,6 +105,7 @@ function SignUp(props) {
         <div className='form-foot'>
             <span className='form-info'>Already have an account ? <a href='/login'>login here</a></span>
         </div>
+        </form>
         </div>
     </div>
   )

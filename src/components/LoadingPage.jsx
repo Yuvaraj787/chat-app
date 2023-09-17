@@ -1,6 +1,6 @@
 import React from 'react'
 import "../styles/LoadingPage.css"
-import logo from "../../public/icons8-chat-96.png"
+import logo from "/icons8-chat-96.png"
 function LoadingPage(props) {
   return (
     <div className="load-page">

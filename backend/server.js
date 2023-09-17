@@ -105,6 +105,19 @@ io.on("connection",(socket)=>{
         console.log("Joined room of id : ",data)
         socket.join(data)
     })
+    socket.on("disconnecting", (det) => {
+        console.log("Connection Losting")
+        console.log(socket.rooms);
+        const it = socket.rooms.values();
+        socket.to(it.next().value).emit("receive_message",{
+            type:"offline"
+        })
+        socket.to(it.next().value).emit("receive_message",{
+            type:"offline"
+        })
+    });
+
+    
     socket.on("send_message",async (mdata)=>{
         console.log("Message recieved")
         console.log(mdata);
@@ -115,7 +128,7 @@ io.on("connection",(socket)=>{
             console.log("game values received : ",mdata.values);
         }
         try {
-            await conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
+            await  (mdata.type == "text" || mdata.type == "image") && conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
         } catch (err) {
             console.log("Error in update message values to db reason : ",err.message)
         }
@@ -240,6 +253,8 @@ app.get("/getlist", verifyToken, async (req,res)=>{
     }
     res.json({list:result});
 })
+
+// const getContacts()
 
 app.post("/addchat", verifyToken, async (req,res)=>{
     const response = {success : false, alreadyExist : false, NotExist : false}

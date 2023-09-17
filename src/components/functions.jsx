@@ -1,9 +1,14 @@
 import { Cookies } from "react-cookie"
-import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 
-const notify =(message)=> {
-   toast(message)
+const validateEmail = (email) => {
+   let patten = "[a-z0-9]+@[a-z]{2,7}.[a-z]{2,5}";
+   return email.match(patten) ? true : false;
+}
+
+const validatePhone = (phone) => {
+   let pattern = "[0-9]{10}"
+   return phone.match(pattern);
 }
 
 const logout = () => {
@@ -14,4 +19,4 @@ const logout = () => {
    navigate("/login");
 }
 
-export {logout,notify}
+export {logout, validateEmail, validatePhone}

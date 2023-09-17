@@ -135,6 +135,10 @@ function ChatPage(props) {
     }
   },[thisChats])
 
+  const handleTyping = () => {
+    props.reqSocket.emit("send_message", { message: null, type: "typing", room: props.details.roomid, senderToken: cookie.get("token") })
+  }
+
   return (
     <div className='chat-page'>
       <div style={{position:"absolute",left:0,top:0,display:!isGameOn && "none"}}><Game setGameOn={setGameOn} setValues={setValues} makeMove={makeMove} values={gameValues} roomid={props.details.roomid} sock={props.reqSocket}/></div>
@@ -184,7 +188,7 @@ function ChatPage(props) {
                 <AddPhotoAlternateIcon sx={{ color: "black" }} fontSize='large' onClick={() => document.getElementById("img").click()} />
                 <input onKeyDown={(e)=>{
                    if (e.key == "Enter") document.getElementById("send-btn").click();
-                }} type='text' className='chat-space' id="msg" placeholder="Message" />
+                }} onChange={handleTyping} type='text' className='chat-space' id="msg" placeholder="Message" />
                 <button className='send-btn' type='submit' id="send-btn" onClick={sendMessage}><SendIcon /> </button>
               </div>
             </div>

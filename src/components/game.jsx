@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import "../styles/tic.css";
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
     const [turn, setTurn] = useState(true);
     const [wini, setWin] = useState(false);
@@ -14,16 +15,18 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
             var m = checkWinner(c);
             if (m[0]) {
                 setWin(true);
+                toast.success("Hurray !, you won the game");
                 makeMove(c);
                 return;
             }
             if (m[1]) {
+                toast("Match draw :)");
                 setDraw(true);
                 makeMove(c);
-
                 return;
             }
             setTurn(false);
+            toast("your friend turn now");
             makeMove(c);
         }
     }
@@ -55,7 +58,7 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
           const box1=v[f1][f2]; //x
           const box2=v[s1][s2]; //''
           const box3=v[t1][t2]; //''
-          if (box1 == "." || box2 == "." || box3 == ".") {
+          if (box1 == "." || box2 == "." || box3 == "."){
             isDraw = false;
           }
           if(box1==box2 && box2==box3 && box1 != "."){
@@ -69,6 +72,7 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
       }
     useEffect(()=>{
         setTurn(true);
+        toast("Your turn now !");
         setDraw(false);
         setWin(false);
         setLose(false);
@@ -77,11 +81,13 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
         const l = checkWinner(values);
         if (l[0]) {
             setLose(true);
+            toast("You lose. Your friend wins the game");
             setTurn(false);
             return;
         } 
         if (l[1]) {
             setDraw(true);
+            toast("Match draw :)");
             setTurn(false);
             return;
         }
@@ -94,14 +100,8 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
     return (
         <div className='body-tag' style={{backgroundColor:"#727578"}}>
             <div style={{textAlign:"center"}}>
-            <button onClick={()=>{setGameOn(false)}} style={{margin:"10% auto"}}>close</button>
             <h2> Tic Tac Toc </h2>
             <br />
-            {draw && <h1>Match draw</h1>}
-            {wini ? <h1 style={{color:"#2fd667"}}>You Win :)</h1> : 
-            lose && <h1>You lose :(</h1>
-            }
-            {turn ? <h2>Your turn now</h2> : <h2>Your friend turn</h2>}
             <h2>Your are {localStorage.getItem("uservalue")}</h2>
             <br />
             <div class="container">
@@ -115,6 +115,7 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
                 <div class="box" onClick={()=>{turn && boxClick(2,1)}}>{values != undefined && values[2][1]}</div>
                 <div class="box" onClick={()=>{turn && boxClick(2,2)}}>{values != undefined && values[2][2]}</div>
             </div>
+            <button onClick={()=>{setGameOn(false)}} style={{margin:"10% auto"}}>Exit</button>
 
             <script src="tic.js"></script>
             </div>

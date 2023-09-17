@@ -4,8 +4,7 @@ import { useState } from 'react'
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 import { Cookies } from 'react-cookie'
 import axios from 'axios'
-import { logout } from "../components/functions"
-import MenuIcon from '@mui/icons-material/Menu';
+import { logout, validateEmail } from "../components/functions"
 import io from "socket.io-client"
 import profileImg from "../assets/profile.png";
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -17,14 +16,18 @@ import toast from 'react-hot-toast';
 function OneBox(props) {
   const cookie = new Cookies()
   const socket = io.connect(ApiUrl);
+  socket.kid = 8900;
   const [sampleChats, setChats] = useState([]);
   const [fetched, setFetched] = useState(false);
   const [show, setShow] = useState(false);
+  const [unread, setUnread] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [online, setOnline] = useState(false);
   useEffect(() => {
     console.log("Trying to join room from client side :", props)
     socket.emit("join_room", props.roomid)
+    socket.emit("send_message", { message: null, type: "online-give", room: props.roomid, senderToken: cookie.get("token") })
   }, [])
-  const [unread, setUnread] = useState(false);
   const chats = JSON.parse(localStorage.getItem(props.oid + ""));
 
   // useEffect(() => {
@@ -32,21 +35,40 @@ function OneBox(props) {
   //     props.onChange(props.index, socket, sampleChats)
   //   }
   // }, [props.selected])
-
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      if (data.userid != props.oid) return;
-      setUnread(true)
+
+    socket.on("receive_message", async (data) => {
       console.log(data);
-      var chat1 = JSON.parse(localStorage.getItem(props.oid + ""));
-      // if (chat1[chat1.length - 1].message != data.message)
-      chat1.push({ message: data.message, sent: false, type: data.type, values: data.values });
-      localStorage.setItem(props.oid + "", JSON.stringify(chat1))
-      if (cookie.get("selected") == props.oid) {
-        props.changeChat([...chat1])
-      } else {
-        toast(`Message received from ${props.name} : ${chat1[chat1.length - 1].message}`);
+      if (data.type == "offline") {
+        setOnline(false);
+        return;
       }
+      if (data.userid != props.oid) return;
+      if (data.type == "typing" && !typing) {
+        setTyping(true);
+        await setTimeout(() => {
+          setTyping(false);
+        }, 2000);
+        return;
+      } else if (data.type == "online-give") {
+        setOnline(true);
+        socket.emit("send_message", { message: null, type: "online-back", room: props.roomid, senderToken: cookie.get("token") })
+      } else if (data.type == "online-back") {
+        setOnline(true);
+      } else {
+        setUnread(true)
+        console.log(data);
+        var chat1 = JSON.parse(localStorage.getItem(props.oid + ""));
+        // if (chat1[chat1.length - 1].message != data.message)
+        chat1.push({ message: data.message, sent: false, type: data.type, values: data.values });
+        localStorage.setItem(props.oid + "", JSON.stringify(chat1))
+        if (cookie.get("selected") == props.oid) {
+          props.changeChat([...chat1])
+        } else {
+          toast(`Message received from ${props.name} : ${chat1[chat1.length - 1].message}`);
+        }
+      }
+     
     })
   }, [socket])
   return (
@@ -67,7 +89,7 @@ function OneBox(props) {
         console.log(chats);
         props.changeChat([...chats])
         cookie.set("selected", props.oid)
-        props.onChange({ name: props.name, userid: props.oid, roomid: props.roomid,dp:props.dp })
+        props.onChange({ name: props.name, userid: props.oid, roomid: props.roomid, dp:props.dp })
         props.sChange(socket)
       }
     }>
@@ -75,8 +97,10 @@ function OneBox(props) {
         <img src={props.dp == null ? profileImg : props.dp} onClick={()=>setShow(true)} style={{height:"35px",width:"35px",borderRadius:"50%",objectFit:"cover",display:"flex",cursor:"pointer"}} />
         {show && <ImageViewer src={props.dp} show={show} setFullScreen={setShow} /> }
       </span>
-      <span>{props.name}
-        {unread && <span style={{ color: "green" }}>*</span>}</span>
+      <div style={{display:"flex", flexDirection:"column"}}>
+        <span>{props.name}</span>
+        <span style={{fontSize:"1.3rem"}}>{online && <span style={{ color: props.selected ? "#029500" : "darkgreen"}}>Online</span>} {typing && <span style={{ color: props.selected ? "#029500" : "darkgreen" }}><span style={{color:"black"}}>|</span> Typing..</span> } </span>
+      </div>
     </div>
   )
 }
@@ -99,6 +123,10 @@ function List(props) {
   const updateEmail = (e) => setEmail(e.target.value);
 
   const addChat = () => {
+    if (!validateEmail(email)) {
+      toast.error("Enter a valid email !");
+      return;
+    }
     let id = toast.loading("Searching for the contact....");
     axios({
       url: ApiUrl + "/addchat",
