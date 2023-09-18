@@ -51,10 +51,11 @@ function ChatPage(props) {
         msg: props.curChats[props.curChats.length - 1].message,
       }
     }).then((res) => {
-      if (res.error) {
-        console.log("Error ", res.error);
+      if (res.data.error) {
+        console.log("Error ", res.data.error);
         return;
       } 
+      console.log(res.data.array);
       setSuggestions([...res.data.array]);
     }).catch((err) => {
       console.log("Error in gpt api ", err)
