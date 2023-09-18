@@ -22,7 +22,6 @@ const downloadChats = async (list) => {
         }
         }).then((res)=>{
         if (res.data.success) {
-          console.log(res.data.chats)
           localStorage.setItem(list[i].id+"",JSON.stringify(res.data.chats))
         } else {
           toast.success("Error in fetching chats of this person please try again later");
@@ -54,7 +53,6 @@ function mainpage(props) {
       },
     }).then(async (res)=>{
       if (res.data.wrongToken) logout()
-      console.log(res.data.list);
       setList(res.data.list);
       setFetched(true)
       if (await downloadChats(res.data.list)) {

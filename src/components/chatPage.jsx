@@ -7,6 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { ApiUrl } from './comVars'
 import profileImg from "../assets/profile.png";
 import ImageViewer from './imageViewer';
 import Game from './game';
@@ -44,22 +45,17 @@ function ChatPage(props) {
     if (props.curChats.length == 0) return;
     if (props.curChats[props.curChats.length - 1].sent) return;
     axios({
-      url: "https://api.openai.com/v1/chat/completions",
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_KEY}`,
-        ContentType: "application/json"
-      },
-      data: {
-        model: "gpt-3.5-turbo",
-        messages: [{
-          "role": "system",
-          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for" + props.curChats[props.curChats.length - 1].message + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
-        }],
-        temperature: 0.7
+      url: ApiUrl + "/suggest",
+      method: "GET",
+      params: {
+        msg: props.curChats[props.curChats.length - 1].message,
       }
     }).then((res) => {
-      setSuggestions(JSON.parse(res.data.choices[0].message.content))
+      if (res.error) {
+        console.log("Error ", res.error);
+        return;
+      }
+      setSuggestions(res.data.array);
     }).catch((err) => {
       console.log("Error in gpt api ", err)
     })

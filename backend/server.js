@@ -1,7 +1,9 @@
+require("dotenv").config();
 const express  = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended:true})); 
+const axios = require("axios");
 const pg = require("pg");
 const http = require("http");
 const cors = require('cors');
@@ -15,9 +17,6 @@ PGUSER='Yuvaraj787'
 PGPASSWORD='ozBmfeCq68Ox'
 ENDPOINT_ID='Chat Application'
 
-// const url = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?options=project%3D${ENDPOINT_ID}`
-// const conn = new pg.Client(url,{ ssl: 'require' });
-
 var conn = new pg.Client({
     user: PGUSER,
     password: PGPASSWORD,
@@ -26,50 +25,6 @@ var conn = new pg.Client({
     host: PGHOST,
     ssl: true
 });
-
-
-// var conn = new pg.Client({
-//     user: "chat_app_app@chatappserver1",
-//     password: "Summer_project",
-//     database: "citus",
-//     port: 5000,
-//     host: "chatappserver1.postgres.database.azure.com",
-//     // ssl: true
-// });
-
-// var conn = new pg.Client(url2);
-// PGHOST='chatapp77.database.windows.net'
-// PGDATABASE='chatapp'
-// PGUSER='yuvarajv'
-// PGPASSWORD='azure@123'
-// // ENDPOINT_ID='Chat Application'
-// // const url = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?options=project%3D${ENDPOINT_ID}`
-// // const conn = new pg.Client(url,{ ssl: 'require' });
-// var conn = new pg.Client({
-//     user: PGUSER,
-//     password: PGPASSWORD,
-//     database: PGDATABASE,
-//     port: 1433,
-//     host: PGHOST
-// });
-
-
-// cloudinary.config({ 
-//     cloud_name: 'dzcxy6zsg', 
-//     api_key: '867754147488345', 
-//     api_secret: "867754147488345" 
-// });
-
-// const storage = new CloudinaryStorage({
-//     cloudinary:cloudinary,
-//     params: {
-//         folder:"chatPhotos",
-//         format: async () => "png",
-//         public_id: (req,file) => file.filename
-//     }
-// })
-
-// const parser = multer({storage:storage});
 
 conn.connect((err)=>{
     if (err) console.log("Error in connecting to db : ",err.message)
@@ -99,6 +54,10 @@ const io = new Server(server, {
         methods: ['GET','POST']
     }
 })
+
+
+
+
 io.on("connection",(socket)=>{
     console.log("User Connected : ",socket.id);
     socket.on("join_room",(data)=>{
@@ -107,7 +66,6 @@ io.on("connection",(socket)=>{
     })
     socket.on("disconnecting", (det) => {
         console.log("Connection Losting")
-        console.log(socket.rooms);
         const it = socket.rooms.values();
         socket.to(it.next().value).emit("receive_message",{
             type:"offline"
@@ -119,11 +77,8 @@ io.on("connection",(socket)=>{
 
     
     socket.on("send_message",async (mdata)=>{
-        console.log("Message recieved")
-        console.log(mdata);
         const id = jwt.decode(mdata.senderToken).id;
         console.log("Sender id : ",id);
-        console.log(mdata);
         if (mdata.type == "req-game-values") {
             console.log("game values received : ",mdata.values);
         }
@@ -142,6 +97,29 @@ io.on("connection",(socket)=>{
 })
 
 
+app.get("/suggest", (req,res) => {
+    axios({
+      url: "https://api.openai.com/v1/chat/completions",
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.API_KEY}`,
+        ContentType: "application/json"
+      },
+      data: {
+        model: "gpt-3.5-turbo",
+        messages: [{
+          "role": "system",
+          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for" + req.params.msg + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
+        }],
+        temperature: 0.7
+      }
+    }).then((c) => {
+        res.json({array:JSON.parse(c.data.choices[0].message.content)});
+    }).catch((err) => {
+        console.log("error in retreive from open ai : "  + err.message);
+        res.json({error:err.message});
+    })
+})
 
 app.post("/verify", verifyToken, (req,res)=>{
     res.json({verified:true});
@@ -207,7 +185,6 @@ app.get("/myprofile", verifyToken, async (req,res) => {
 
 app.get("/profile", verifyToken, async (req,res) => {
     const docs = await conn.query("select * from userDetails where userid = $1",[req.query.userid]);
-    console.log(docs.rows[0]);
     res.json({details: docs.rows[0]});
 })
 
@@ -254,7 +231,6 @@ app.get("/getlist", verifyToken, async (req,res)=>{
     res.json({list:result});
 })
 
-// const getContacts()
 
 app.post("/addchat", verifyToken, async (req,res)=>{
     const response = {success : false, alreadyExist : false, NotExist : false}

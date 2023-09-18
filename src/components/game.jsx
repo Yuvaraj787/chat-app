@@ -76,8 +76,6 @@ function Game({setGameOn, values, setValues, sock, roomid, makeMove}) {
         setDraw(false);
         setWin(false);
         setLose(false);
-        console.log("Vlues");
-        console.log(values);
         const l = checkWinner(values);
         if (l[0]) {
             setLose(true);

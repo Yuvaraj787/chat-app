@@ -86,7 +86,6 @@ function OneBox(props) {
           document.querySelector(".chat-page").style.display = "flex";
         }
         props.changeChat();
-        console.log(chats);
         props.changeChat([...chats])
         cookie.set("selected", props.oid)
         props.onChange({ name: props.name, userid: props.oid, roomid: props.roomid, dp:props.dp })
@@ -112,14 +111,7 @@ function List(props) {
   const [selected, setSelected] = useState(0);
   const [displayState, setDisplay] = useState(false);
   const [fs, setFs] = useState(false);
-  // const update = (ind,socket) => {
-  //   props.list[selected].selected = false;
-  //   props.list[ind].selected = true;
-  //   setList([...list]);
-  //   setSelected(ind);
-  //   props.changeSocket(socket);
-  //   props.onChange(list[ind]);
-  // }
+
   const updateEmail = (e) => setEmail(e.target.value);
 
   const addChat = () => {
