@@ -54,8 +54,8 @@ function ChatPage(props) {
       if (res.error) {
         console.log("Error ", res.error);
         return;
-      }
-      setSuggestions(res.data.array);
+      } 
+      setSuggestions([...res.data.array]);
     }).catch((err) => {
       console.log("Error in gpt api ", err)
     })
@@ -165,7 +165,7 @@ function ChatPage(props) {
 
               {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && <div style={{ height: "80px" }} className='msg-rec'>
                 <div className='rec-head'>    </div>
-                {suggestions.length != 0 ? suggestions.map(msg => {
+                {suggestions && suggestions.map(msg => {
                   return (
                     <div className='one-rec' style={{color:"black"}} onClick={() => {
                       document.getElementById("msg").value = msg;
@@ -174,7 +174,8 @@ function ChatPage(props) {
                       {msg}
                     </div>
                   )
-                }) : <span className='rec-load'>Loading suggestions for you</span>}
+                })}
+                {/* : <span className='rec-load'>Loading suggestions for you</span> */}
               </div>}
               <div className='type-area'>
                 <input onKeyDown={(e)=>{
