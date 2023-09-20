@@ -224,11 +224,11 @@
 .rec-load {
     font-size: 1.1rem;
     width: 260px;
-    /* animation: blinking 3.5s infinite; */
+    animation: blinking 3s infinite;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    transition: width 1s;
+    transition: all 1s;
 }
 
 .rec-load::after {
@@ -245,22 +245,16 @@
     70% { content: ".  .  ."; }
 }
 
-/* @keyframes blinking {
+@keyframes blinking {
     0% {
-        width: 0;
+        /* width: 0; */
+        opacity: 0;
+    }
+    40% {
+        /* width: 220px; */
         opacity: 1;
     }
-    60% {
-        width: 120px;
-    }
-    90% {
-        width: 190px;
-    }
-    100% {
-        width: 220px;
-        opacity: 1;
-    }
-} */
+}
 
 @media only screen 
 and (min-device-width : 220px) 
