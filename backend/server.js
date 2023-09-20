@@ -56,8 +56,6 @@ const io = new Server(server, {
 })
 
 
-
-
 io.on("connection",(socket)=>{
     console.log("User Connected : ",socket.id);
     socket.on("join_room",(data)=>{
@@ -98,6 +96,7 @@ io.on("connection",(socket)=>{
 
 
 app.get("/suggest", (req,res) => {
+    console.log("API key : ",process.env.API_KEY);
     axios({
       url: "https://api.openai.com/v1/chat/completions",
       method: "POST",
