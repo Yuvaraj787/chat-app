@@ -164,9 +164,10 @@ function ChatPage(props) {
           </div>
             <div>
 
-              {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && <div style={{ height: "80px" }} className='msg-rec'>
+              {(props.curChats.length != 0 && !props.curChats[props.curChats.length - 1].sent) && 
+              <div style={{ height: "80px" }} className='msg-rec'>
                 <div className='rec-head'>    </div>
-                {suggestions && suggestions.map(msg => {
+                {suggestions.length !=0 ? suggestions.map(msg => {
                   return (
                     <div className='one-rec' style={{color:"black"}} onClick={() => {
                       document.getElementById("msg").value = msg;
@@ -175,8 +176,8 @@ function ChatPage(props) {
                       {msg}
                     </div>
                   )
-                })}
-                {/* : <span className='rec-load'>Loading suggestions for you</span> */}
+                })
+                 : <span className='rec-load'>Loading suggestions for you</span> }
               </div>}
               <div className='type-area'>
                 <input onKeyDown={(e)=>{
