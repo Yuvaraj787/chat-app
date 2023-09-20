@@ -22,9 +22,9 @@ function chatBox(props) {
         url:bingEndPoint+"/translate",
         method:"post",
         headers: {
-          'Ocp-Apim-Subscription-Key': "69f3e3e6d6c14d648af0db92c52ecf44",
+          'Ocp-Apim-Subscription-Key': "be18a73cfc494fc0bca8695669fb49f4",
            // location required if you're using a multi-service or regional (not global) resource.
-          'Ocp-Apim-Subscription-Region': "global",
+          'Ocp-Apim-Subscription-Region': "eastasia",
           'Content-type': 'application/json'
         },
         params: {

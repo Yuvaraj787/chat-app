@@ -107,7 +107,7 @@ app.get("/suggest", (req,res) => {
         model: "gpt-3.5-turbo",
         messages: [{
           "role": "system",
-          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for " + req.query.msg + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
+          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for " + req.query.msg + "(I need Just a friendly reply (suggest replies for chatting. give replies for the given messge. your suggestion should be valid answer to the given message.). I need chatting type of english. include tanglish sometimess)"
         }],
         temperature: 0.7
       }
