@@ -96,7 +96,6 @@ io.on("connection",(socket)=>{
 
 
 app.get("/suggest", (req,res) => {
-    console.log("API key : ",process.env.API_KEY);
     axios({
       url: "https://api.openai.com/v1/chat/completions",
       method: "POST",
@@ -108,7 +107,7 @@ app.get("/suggest", (req,res) => {
         model: "gpt-3.5-turbo",
         messages: [{
           "role": "system",
-          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for" + req.params.msg + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
+          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for " + req.query.msg + "(I need Just a friendly reply. I need chatting type of english. include tanglish sometimes  )"
         }],
         temperature: 0.7
       }
