@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
@@ -71,12 +71,7 @@ function Profile() {
 								  	<input type="text" className="form-control" value={details.username} />
 								</div>
 							</div>
-							{/* <div className="col-md-6">
-								<div className="form-group">
-								  	<label>Last Name</label>
-								  	<input type="text" className="form-control" value="Khan" />
-								</div>
-							</div> */}
+							
 							<div className="col-md-6">
 								<div className="form-group">
 								  	<label>Email</label>
@@ -89,7 +84,7 @@ function Profile() {
 								  	<input type="text" className="form-control" value={details.phone} />
 								</div>
 							</div>
-							
+			
 							<div className="col-md-12">
 								<div className="form-group">
 								  	<label>About</label>

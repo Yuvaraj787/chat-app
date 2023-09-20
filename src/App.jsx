@@ -8,6 +8,7 @@ import LoadingPage from './components/LoadingPage';
 import Main from './pages/mainpage';
 import { Cookies } from 'react-cookie';
 import { ApiUrl } from './components/comVars';
+import About from './pages/about';
 import Profile from './pages/Profile/profile';
 import OtherProfile from "./pages/Profile/otherProfile";
 import toast, { Toaster } from 'react-hot-toast';
@@ -70,6 +71,7 @@ function App() {
           <Route path="/load" element={<LoadingPage />} />
           <Route path="/view" element={<Main />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<About />} />
           <Route path="/profile/:userid" element={<OtherProfile />} />
         </Routes>
       </div>

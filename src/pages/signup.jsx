@@ -69,6 +69,7 @@ function SignUp(props) {
 
   const handleImg = (e) => {
     const formData = new FormData();
+    console.log(e.target.files[0]);
     formData.append("file",e.target.files[0]);
     formData.append("upload_preset","n4930qx2");
     document.getElementById("send-btn")?.click();
@@ -96,7 +97,7 @@ function SignUp(props) {
            <div className='input-box prof-pic'>
             <InsertEmoticonIcon />
             <input name="img" placeholder='profile picture' type='file' onChange={handleImg} id="dp-select" style={{display:"none"}} /><span onClick={
-            ()=>{
+            () => {
               document.getElementById("dp-select").click();
             }
             } className='input-cust' style={{fontSize:"1.6rem",cursor:"pointer"}}>Choose profile picture</span></div>

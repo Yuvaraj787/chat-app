@@ -131,7 +131,7 @@ app.post("/signup",async (req,res) => {
    
    const data = req.query
    try {
-    const docs = await conn.query("select * from userDetails where email = $1",[req.query.email])
+    const docs = await conn.query("select * from userDetails where email = $1",[data.email])
     if (docs.rowCount != 0) {
         response.uniqueEmail = false;
     }
@@ -151,7 +151,8 @@ app.post("/signup",async (req,res) => {
    res.json(response);
 })
 
-app.post("/login",async (req,res) => {
+
+app.post("/login",async (req, res) => {
     const data = req.query
     const response = {correct : false, newEmail : false, wrgPwd : true, username: "", token: ""}
     try {
@@ -180,6 +181,7 @@ app.post("/login",async (req,res) => {
 
 app.get("/myprofile", verifyToken, async (req,res) => {
     const docs = await conn.query("select * from userDetails where userid = $1",[req.id]);
+    console.log(docs.rows);
     res.json({details: docs.rows[0]});
 })
 
