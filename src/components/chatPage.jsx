@@ -12,12 +12,12 @@ import profileImg from "../assets/profile.png";
 import ImageViewer from './imageViewer';
 import Game from './game';
 function ChatPage(props) {
-  const cookie = new Cookies();
-  
+  const cookie = new Cookies();  
   const [imgLoad, setImgLoad] = useState(false);
   const sendMessage = (e) => {
     try {
       e.preventDefault();
+      
     } catch(e) {
       console.log(e.message);
     }
@@ -119,6 +119,10 @@ function ChatPage(props) {
     document.querySelector("#msg").value = ""
     setGameOn(true);
   }
+  const reject = () => {
+    props.setChats([...props.curChats, {message: "Request rejected" , sent: true, type: "game-req-reject"}])
+    props.reqSocket.emit("send_message", {message: "Request rejected" ,  type: "game-req-reject", room: props.details.roomid, senderToken: cookie.get("token") })
+  }
   const makeMove = (gvalues) => {
     props.reqSocket.emit("send_message", { message: "game move", type: "req-game-values", values: gvalues, room: props.details.roomid, senderToken: cookie.get("token") })
   }
@@ -157,7 +161,7 @@ function ChatPage(props) {
               }
               return (
                 <div className='par-msg-box' style={{ display: "flex", justifyContent: chat.sent ? "flex-end" : "flex-start" }}>
-                  <ChatBox message={chat.message} side={chat.sent} type={chat.type} imgLoad={imgLoad} setGameOn={setGameOn} isGameOn={setGameOn} startGame={startGame} />
+                  <ChatBox message={chat.message} side={chat.sent} type={chat.type} imgLoad={imgLoad} setGameOn={setGameOn} isGameOn={setGameOn} reject={reject} startGame={startGame} />
                 </div>
               )
             })}

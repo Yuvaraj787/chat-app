@@ -99,8 +99,8 @@
 }
 
 @media only screen 
-and (min-device-width : 220px) 
-and (max-device-width : 680px) {
+and (min-width : 290px) 
+and (max-width : 880px) {
   .oNavbar {
     flex-direction: column;
   }

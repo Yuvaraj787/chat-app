@@ -24,7 +24,7 @@ const downloadChats = async (list) => {
         if (res.data.success) {
           localStorage.setItem(list[i].id+"",JSON.stringify(res.data.chats))
         } else {
-          toast.success("Error in fetching chats of this person please try again later");
+          toast.error("Error in fetching chats of this person please try again later");
         }
         }).catch(err=>{
           console.log("Error in getting the chat of this person");

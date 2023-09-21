@@ -66,14 +66,13 @@
     text-shadow: 1px 1px 3px white;
 }
 
-
 .form-info > a {
     color: rgb(66, 71, 27)
 }
 
 @media only screen 
-and (min-device-width : 220px) 
-and (max-device-width : 780px) {
+and (min-width : 220px) 
+and (max-width : 780px) {
   .align {
     position: static;
     width: 100%;

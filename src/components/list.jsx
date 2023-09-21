@@ -23,6 +23,7 @@ function OneBox(props) {
   const [unread, setUnread] = useState(false);
   const [typing, setTyping] = useState(false);
   const [online, setOnline] = useState(false);
+  
   useEffect(() => {
     console.log("Trying to join room from client side :", props)
     socket.emit("join_room", props.roomid)
@@ -68,7 +69,6 @@ function OneBox(props) {
           toast(`Message received from ${props.name} : ${chat1[chat1.length - 1].message}`);
         }
       }
-     
     })
   }, [socket])
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import axios from 'axios'
-import "../styles/chat.css"
+import axios from 'axios';
+import "../styles/chat.css";
 import ImageViewer from './imageViewer';
 import fileDownload from 'js-file-download';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -22,9 +22,9 @@ function chatBox(props) {
         url:bingEndPoint+"/translate",
         method:"post",
         headers: {
-          'Ocp-Apim-Subscription-Key': "be18a73cfc494fc0bca8695669fb49f4",
+          'Ocp-Apim-Subscription-Key': "dc95f3815f6949a2ae48b6ad8fced0ff",
            // location required if you're using a multi-service or regional (not global) resource.
-          'Ocp-Apim-Subscription-Region': "eastasia",
+          'Ocp-Apim-Subscription-Region': "global",
           'Content-type': 'application/json'
         },
         params: {
@@ -39,6 +39,7 @@ function chatBox(props) {
       }).then(res=>{
         setText({original: text.original, translated: res.data[0].translations[0].text})
       }).catch(err=>{
+        setText({original: text.original, translated: "NETWORK ERROR " + err.message})
         console.log("Error in translating text reason : ",err)
       })
       setOn(!on)
@@ -108,7 +109,7 @@ function chatBox(props) {
                   </span>
                 </> : <div className='opp-side-req'>
                   <button className='req-btns acc' onClick={props.startGame}><CheckIcon />Accept</button>
-                  <button className='req-btns rej'><CloseIcon />Reject</button>
+                  <button className='req-btns rej' onClick={props.reject}><CloseIcon />Reject</button>
                   </div> 
               }
                 

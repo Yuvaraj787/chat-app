@@ -49,7 +49,7 @@ function oNavbar(props) {
                 <div className='first-half'>
                     <div className='nav-brand'>
                         <img src={logo} className='brand-logo' />
-                        <span>ChatApp</span>
+                        <span>ChitChat</span>
                     </div>
                 </div>
                 <div className='drop-menu' onClick={()=>{
@@ -58,7 +58,7 @@ function oNavbar(props) {
                    {show ? <Close /> :  <MenuIcon fontSize='large' />}
                 </div>
             </div>
-            <div className='second-half' style={{height:show && "20vh"}}>
+            <div className='second-half' style={{height:show && "29vh"}}>
             {props.loggedIn && <div className='nav-item'>
                     <span>
                          <a style={{ cursor: "pointer" }} href='/view' className={path == "/view" && "setted"}>Chat</a>
@@ -69,9 +69,8 @@ function oNavbar(props) {
                         {props.loggedIn ? <a style={{ cursor: "pointer" }} onClick={logout}>Logout</a> : <a href="/login">Login</a>}
                     </span>
                 </div>
-                
                 <div className='nav-item'>
-                    <span className={path == "/about" && "setted"}><a href="#">About</a></span>
+                    <span className={path == "/about" && "setted"}><a href="/about">About</a></span>
                 </div>
                 <div className='nav-item'>
                     <span className={path == "/profile" && "setted"}><a href="/profile">{props.loggedIn ? <img src={dp} style={{ height: "2.5rem", width: "2.5rem", borderRadius: "50%", objectFit: "cover", display: "flex", border: "1px solid black" }} /> : <AccountCircleIcon fontSize='large' sx={{ display: "flex" }} />}</a></span>

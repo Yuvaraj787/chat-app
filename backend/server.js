@@ -107,7 +107,7 @@ app.get("/suggest", (req,res) => {
         model: "gpt-3.5-turbo",
         messages: [{
           "role": "system",
-          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for " + req.query.msg + "(I need Just a friendly reply (suggest replies for chatting. give replies for the given messge. your suggestion should be valid answer to the given message.). I need chatting type of english. include tanglish sometimess)"
+          "content": "Give me a just js array without variable name (i.e you should start from [ and end with ] also do not include new line escape sequence like \n )  that contains 3 short replies for " + req.query.msg + "(I need Just a friendly reply (suggest replies for chatting. give replies for the given messge. your suggestion should be valid answer to the given message.). I need chatting type of english. give reply in tanglish if given message is in tanglish or tamil sometimess)"
         }],
         temperature: 0.7
       }
@@ -272,7 +272,7 @@ app.post("/addchat", verifyToken, async (req,res)=>{
 })
 
 
-app.get("/getChat",verifyToken, async (req,res) => {
+app.get("/getChat", verifyToken, async (req,res) => {
     var docs;
     try {
     docs = await conn.query(`select * from room_no_${req.query.roomid}`);

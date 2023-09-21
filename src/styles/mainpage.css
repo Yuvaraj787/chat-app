@@ -257,8 +257,8 @@
 }
 
 @media only screen 
-and (min-device-width : 220px) 
-and (max-device-width : 680px) {
+and (min-width : 220px) 
+and (max-width : 680px) {
    .chat-page {
     display: none;
     width: 90%;
