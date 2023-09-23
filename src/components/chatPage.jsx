@@ -94,8 +94,8 @@ function ChatPage(props) {
     ])
     localStorage.setItem("uservalue","X");
     localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: "Game request sent" , sent: true, type: "game-request" }]))
-    props.setChats([...props.curChats, {message: "Game request sent" , sent: true, type: "game-request"}])
-    props.reqSocket.emit("send_message", {message: "Game request sent" ,  type: "game-request", room: props.details.roomid, senderToken: cookie.get("token") })
+    props.setChats([...props.curChats, {message: "can we play a tic tac toe game ?" , sent: true, type: "game-request"}])
+    props.reqSocket.emit("send_message", {message: "can we play a tic tac toe game ?" ,  type: "game-request", room: props.details.roomid, senderToken: cookie.get("token") })
     document.querySelector("#msg").value = ""
   }
   const [isGameOn, setGameOn] = useState(false);

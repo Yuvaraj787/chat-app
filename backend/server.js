@@ -81,7 +81,8 @@ io.on("connection",(socket)=>{
             console.log("game values received : ",mdata.values);
         }
         try {
-            await  (mdata.type == "text" || mdata.type == "image") && conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
+            await  (mdata.type == "text" || mdata.type == "image") && 
+            conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
         } catch (err) {
             console.log("Error in update message values to db reason : ",err.message)
         }
