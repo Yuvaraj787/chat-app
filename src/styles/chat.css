@@ -9,6 +9,20 @@
     padding: 18px;
 }
 
+.map-par {
+    position: relative;
+}
+.map-par > .g-map-btn {
+    position: absolute;
+    left: 1%;
+    top:1%;
+    border-radius: 2px;
+    padding: 3px;
+    font-size: small;
+    background-color: aliceblue;
+    z-index: 1000;
+}
+
 .type-area {
     display: flex;
     align-items: center;

@@ -17,6 +17,9 @@ PGUSER='Yuvaraj787'
 PGPASSWORD='ozBmfeCq68Ox'
 ENDPOINT_ID='Chat Application'
 
+// pg_dump --host ep-floral-fire-711938.ap-southeast-1.aws.neon.tech --port 5432 --user Yuvaraj787 neondb  > backup.sql
+
+
 var conn = new pg.Client({
     user: PGUSER,
     password: PGPASSWORD,
@@ -81,7 +84,7 @@ io.on("connection",(socket)=>{
             console.log("game values received : ",mdata.values);
         }
         try {
-            await  (mdata.type == "text" || mdata.type == "image") && 
+            await  (mdata.type == "text" || mdata.type == "image" || mdata.type == "location") && 
             conn.query(`insert into room_no_${mdata.room} (message, type, sender, receiver) values ($1, $2, $3, $4)`,[mdata.message,mdata.type,id,0])
         } catch (err) {
             console.log("Error in update message values to db reason : ",err.message)

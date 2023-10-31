@@ -3,12 +3,16 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import axios from 'axios';
 import "../styles/chat.css";
 import ImageViewer from './imageViewer';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import fileDownload from 'js-file-download';
 import DownloadIcon from '@mui/icons-material/Download';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import {GoogleMap} from "@react-google-maps/api";
+import {useLoadScript} from "@react-google-maps/api";
 import Game from './game';
+import { useNavigate } from 'react-router-dom';
 
 function chatBox(props) {
   const [text, setText] = useState({original: props.message, translated : ""});
@@ -16,6 +20,16 @@ function chatBox(props) {
   const [showFullScreen, setFullScreen] = useState(false);
   const [showDwldBtn, setShowDwldBtn] = useState(false);
   const bingEndPoint = "https://api.cognitive.microsofttranslator.com/"
+  const{isLoaded, loadError} = useLoadScript({
+    // Uncomment the line below and add your API key
+    // googleMapsApiKey: '<Your API Key>',
+  });
+  let navigate = useNavigate();
+  if (loadError) return "Error loading Maps";
+  if (!isLoaded) return "Loading Maps";
+  const redirect = (lat,long) => {
+    window.location.replace("https://maps.google.com/?q="+lat+","+long);
+  }
   const translate = () => {
     if (text.translated == "") {
       axios({
@@ -114,7 +128,19 @@ function chatBox(props) {
               }
                 
                 </div>
-             </div> :
+             </div> : props.type == "location" ? <div className='map-par' >
+              <a target='_blank' href={"https://maps.google.com/?q="+parseFloat(props.message.split(' ')[0])+","+parseFloat(props.message.split(' ')[1])} className='g-map-btn'><ArrowOutwardIcon fontSize='small' />Open in Gmap</a>
+             <GoogleMap 
+              mapContainerStyle={{
+                width: '400px',
+                height: '300px'
+              }} 
+              zoom={15} 
+              center={{
+                lat: parseFloat(props.message.split(' ')[0]),
+                lng: parseFloat(props.message.split(' ')[1]),
+              }} 
+              /></div> :
              <>
             {on ? text.original : text.translated}
             {(!on && text.translated == "") && <span className='trans-loading-text'>Translating...</span>}

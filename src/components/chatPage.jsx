@@ -6,6 +6,7 @@ import { Cookies } from 'react-cookie';
 import SendIcon from '@mui/icons-material/Send';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
+import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 import toast from 'react-hot-toast';
 import { ApiUrl } from './comVars'
 import profileImg from "../assets/profile.png";
@@ -67,7 +68,8 @@ function ChatPage(props) {
     msgArea.scrollTop = msgArea.scrollHeight
   },[thisChats])
 
-  const [suggestions, setSuggestions] = useState([])
+  const [suggestions, setSuggestions] = useState([]);
+
   const handleImg = (e) => {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
@@ -139,7 +141,18 @@ function ChatPage(props) {
   const handleTyping = () => {
     props.reqSocket.emit("send_message", { message: null, type: "typing", room: props.details.roomid, senderToken: cookie.get("token") })
   }
-
+  const sendLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        localStorage.setItem(props.details.userid + "", JSON.stringify([...props.curChats, { message: position.coords.latitude+" "+position.coords.longitude, sent: true, type: "location" }]))
+        props.setChats([...props.curChats, { message:  position.coords.latitude+" "+position.coords.longitude, sent: true, type: "location" }])
+        props.reqSocket.emit("send_message", { message: position.coords.latitude+" "+position.coords.longitude, type: "location", room: props.details.roomid, senderToken: cookie.get("token") })
+      },
+      (error) => {
+        console.log(error);
+      }
+  );
+  }
   return (
     <div className='chat-page'>
       <div style={{position:"absolute",left:0,top:0,display:!isGameOn && "none"}}><Game setGameOn={setGameOn} setValues={setValues} makeMove={makeMove} values={gameValues} roomid={props.details.roomid} sock={props.reqSocket}/></div>
@@ -188,6 +201,7 @@ function ChatPage(props) {
                    if (e.key == "Enter") document.getElementById("msg").click();
                 }} type="file" id="img" style={{ display: "none" }} onChange={handleImg} />
                 <img width="45" height="45" src="https://img.icons8.com/external-others-inmotus-design/67/external-Tic-Tac-Toe-round-icons-others-inmotus-design-5.png" alt="external-Tic-Tac-Toe-round-icons-others-inmotus-design-5" onClick={giveGameRequest} />
+                <ShareLocationIcon sx={{ color: "black" }} fontSize='large' onClick={sendLocation}>location share</ShareLocationIcon>
                 <AddPhotoAlternateIcon sx={{ color: "black" }} fontSize='large' onClick={() => document.getElementById("img").click()} />
                 <input onKeyDown={(e)=>{
                    if (e.key == "Enter") document.getElementById("send-btn").click();
